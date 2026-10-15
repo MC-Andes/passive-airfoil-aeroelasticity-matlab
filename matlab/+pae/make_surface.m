@@ -16,11 +16,12 @@ assert(numel(s)>=2 && all(diff(s)>0),'pae:Planform','Span stations must increase
 assert(isequal(size(le),[numel(s),3]) && numel(c)==numel(s), ...
     'pae:Planform','Invalid leadingEdge/chord dimensions.');
 assert(all(isfinite([s;le(:);c])) && all(c>0),'pae:Planform','Invalid planform values.');
-assert(max(abs(le(:,2)-s))<1e-10*max(1,range(s)), ...
+spanRange = s(end)-s(1);
+assert(max(abs(le(:,2)-s))<1e-10*max(1,spanRange), ...
     'pae:Planform','leadingEdge(:,2) must equal spanStations.');
 xi = (1-cos(linspace(0,pi,nx+1)))/2;
 eta = (1-cos(linspace(0,pi,ny+1)))/2;
-span = s(1)+range(s)*eta;
+span = s(1)+spanRange*eta;
 LE = interp1(s,le,span,'linear');
 chord = interp1(s,c,span,'linear');
 twist = zeros(size(span));
@@ -46,5 +47,5 @@ for j=1:ny+1
 end
 surface = struct('nodes',nodes,'xi',XI,'eta',ETA,'nx',nx,'ny',ny, ...
     'referenceArea',trapz(s,c),'referenceChord',trapz(s,c.^2)/trapz(s,c), ...
-    'span',range(s),'source','parametric mean surface');
+    'span',spanRange,'source','parametric mean surface');
 end
