@@ -85,7 +85,7 @@ no garantiza que un paso grande resuelva las frecuencias de interés.
 La [configuración de CI](../.github/workflows/verify.yml) ejecuta dos trabajos:
 
 - Integridad de archivos, hashes, JSON y enlaces locales con Python estándar.
-- Verificación en MATLAB R2026a y ejemplo FEM paramétrico, con reportes pequeños
+- Verificación en MATLAB R2026a sobre Ubuntu 24.04 y ejemplo FEM paramétrico, con reportes pequeños
   publicados como artefactos de Actions; no se agregan resultados al repositorio.
 
 La CI no regenera CAD ni ejecuta siempre la malla refinada completa. La prueba

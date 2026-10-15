@@ -9,6 +9,9 @@
 - Mallas y secciones de referencia necesarias para reproducir los ejemplos.
 - Referencias de Tough PLA y ABS, documentación técnica y datos experimentales requeridos.
 - Verificación local y automatizada; manifiesto de integridad de entradas.
+- Eliminada la dependencia implícita de `range` a toolboxes adicionales;
+  el cálculo de envergadura usa máximo menos mínimo en MATLAB base.
+- CI fijada en Ubuntu 24.04 para evitar cambios implícitos de plataforma.
 
 ### Limitaciones conocidas
 
