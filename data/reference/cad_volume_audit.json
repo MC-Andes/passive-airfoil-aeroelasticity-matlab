@@ -1,0 +1,12 @@
+{
+  "source_name": "reference_airfoil.stp",
+  "source_sha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+  "brep_valid": true,
+  "units": "m",
+  "cad_volume_m3": 0.0006155285293484151,
+  "nonadaptive_volume_m3": 0.0005430025132465182,
+  "adaptive_tolerance": 1e-08,
+  "adaptive_reported_relative_error": 4.633172185522752e-11,
+  "method": "OpenCASCADE BRepGProp adaptive Gauss integration, OnlyClosed=True",
+  "wrapper": "cadquery-ocp 8.0.1.1.0 (version used for this audit)"
+}

@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "description": "Frozen numerical inputs required by the MATLAB examples; original CAD and generated results are not distributed.",
+  "source_step_sha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+  "coordinate_units": "m",
+  "connectivity_index_base": 1,
+  "files": [
+    {
+      "path": "data/fem_reference/faces.csv",
+      "sha256": "119bdc837a2838331c0ea39874b26be07bcff61b53c368f5eea7951991a103a2",
+      "bytes": 803524,
+      "header": [
+        "n1",
+        "n2",
+        "n3",
+        "cad_face"
+      ],
+      "columns": 4,
+      "rows": 40450
+    },
+    {
+      "path": "data/fem_reference/mesh_info.json",
+      "sha256": "df068abafc9ad38ddb39138cb84e97ea0eff6e47462548a5ce5b4d581cc3dd57",
+      "bytes": 926
+    },
+    {
+      "path": "data/fem_reference/nodes.csv",
+      "sha256": "a24635b8d22c72435067686ca5744fb5bfc73cc673a0598a01e006831540d6ae",
+      "bytes": 1587627,
+      "header": [
+        "x_m",
+        "y_m",
+        "z_m"
+      ],
+      "columns": 3,
+      "rows": 21149
+    },
+    {
+      "path": "data/fem_reference/tetra.csv",
+      "sha256": "f1ab09d29912642ae81101bb7de45c90705ab51de731073885d5d4cbe4d5751f",
+      "bytes": 1667058,
+      "header": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "cad_volume"
+      ],
+      "columns": 5,
+      "rows": 69082
+    },
+    {
+      "path": "data/fem_refined/faces.csv",
+      "sha256": "b35d43dfd4272c3eb10789152ac76534b4ec7b4580e31c7164973fccc5bfb616",
+      "bytes": 3210361,
+      "header": [
+        "n1",
+        "n2",
+        "n3",
+        "cad_face"
+      ],
+      "columns": 4,
+      "rows": 154950
+    },
+    {
+      "path": "data/fem_refined/mesh_info.json",
+      "sha256": "5e5609d1c6b656efd567ffc6249863178f7959dbce6a07948c2e7bb4aecc8993",
+      "bytes": 929
+    },
+    {
+      "path": "data/fem_refined/nodes.csv",
+      "sha256": "65d52103c976106ee23ca4505f1cfb037f5af4dca2f9d49acb4eae636bae6d32",
+      "bytes": 6408767,
+      "header": [
+        "x_m",
+        "y_m",
+        "z_m"
+      ],
+      "columns": 3,
+      "rows": 85367
+    },
+    {
+      "path": "data/fem_refined/tetra.csv",
+      "sha256": "112942b6a8db64f2cadf18b2d7dc1a409a33fd34410fdecc260a1fe8ec82f676",
+      "bytes": 7308606,
+      "header": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "cad_volume"
+      ],
+      "columns": 5,
+      "rows": 286037
+    },
+    {
+      "path": "data/reference/cad_info.json",
+      "sha256": "3ea454249acadd1e4c065158e44221ab8cc5f5f19c5572ceb9923856a28dfea0",
+      "bytes": 1676
+    },
+    {
+      "path": "data/reference/cad_nodes.csv",
+      "sha256": "9e546cdd2675ec654dd5971fdda85243cda0c9a08911b3eb4d137735a597f2fd",
+      "bytes": 4825135,
+      "header": [
+        "x_m",
+        "y_m",
+        "z_m"
+      ],
+      "columns": 3,
+      "rows": 64265
+    },
+    {
+      "path": "data/reference/cad_triangles.csv",
+      "sha256": "d844fddfffda5eeb271bc2ac40cece924e1d7c470d2e51d8e2ac0c2d4aba68a5",
+      "bytes": 2244866,
+      "header": [
+        "i",
+        "j",
+        "k"
+      ],
+      "columns": 3,
+      "rows": 128558
+    },
+    {
+      "path": "data/reference/cad_volume_audit.json",
+      "sha256": "d6f0fa37e46391002f22a371203eb7a879bfed9bdc28cd6ff932b04c928708cd",
+      "bytes": 504
+    },
+    {
+      "path": "data/reference/section_01.csv",
+      "sha256": "deaea0fcec4677e308405f39bc52363f327caa504470f8332d2c5346e26c55de",
+      "bytes": 20209,
+      "header": [
+        "xi",
+        "x_m",
+        "upper_m",
+        "lower_m",
+        "camber_m"
+      ],
+      "columns": 5,
+      "rows": 161
+    },
+    {
+      "path": "data/reference/section_02.csv",
+      "sha256": "d684728b5133da0f2dbdc060df4a66ea5958cfbaf8025671ec948c33eb37fa7f",
+      "bytes": 20209,
+      "header": [
+        "xi",
+        "x_m",
+        "upper_m",
+        "lower_m",
+        "camber_m"
+      ],
+      "columns": 5,
+      "rows": 161
+    },
+    {
+      "path": "data/reference/section_03.csv",
+      "sha256": "19cbca65c6ba80ec5f4dbf167935d443ee7dcf9c0bb3e19264d2d2f1bcf4e926",
+      "bytes": 20209,
+      "header": [
+        "xi",
+        "x_m",
+        "upper_m",
+        "lower_m",
+        "camber_m"
+      ],
+      "columns": 5,
+      "rows": 161
+    },
+    {
+      "path": "data/reference/section_04.csv",
+      "sha256": "d04e822f772ec4c01dced5ae94f55a7e079a4f8177b074037cc4ae2af8f32300",
+      "bytes": 20209,
+      "header": [
+        "xi",
+        "x_m",
+        "upper_m",
+        "lower_m",
+        "camber_m"
+      ],
+      "columns": 5,
+      "rows": 161
+    },
+    {
+      "path": "data/reference/section_05.csv",
+      "sha256": "91d5e8ea4e71f9286eb2d9bd3057f079bc2754033f6a112f6aa1c662ee1c8936",
+      "bytes": 20209,
+      "header": [
+        "xi",
+        "x_m",
+        "upper_m",
+        "lower_m",
+        "camber_m"
+      ],
+      "columns": 5,
+      "rows": 161
+    }
+  ]
+}

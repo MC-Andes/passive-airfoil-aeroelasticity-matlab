@@ -1,0 +1,21 @@
+{
+  "source_name": "reference_airfoil.stp",
+  "source_sha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+  "units": "m",
+  "gmsh_version": "4.15.2",
+  "node_count": 21149,
+  "element_count": 69082,
+  "face_count": 40450,
+  "cad_volume_count": 1,
+  "target_size_m": 0.015,
+  "minimum_size_m": 0.0015,
+  "total_volume_m3": 0.0006125988658110905,
+  "interpretation": "One connected CAD solid; no slider kinematics or material inferred.",
+  "cad_volume_m3": 0.0006155285293484151,
+  "relative_volume_error": 0.004759590169485568,
+  "min_jacobian_singular_ratio": 1.5507610964605496e-06,
+  "elements_jacobian_ratio_below_1e_4": 4417,
+  "status": "AUDITED geometry volume; preliminary structural mesh, thin-feature convergence required",
+  "cad_volume_nonadaptive_m3": 0.0005430025132465221,
+  "volume_reference_method": "OpenCASCADE adaptive Gauss, tolerance 1e-8; data/reference/cad_volume_audit.json"
+}

@@ -1,0 +1,21 @@
+/.cache/
+/results/
+/.venv/
+/.publication-check/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.asv
+*.log
+*.zip
+*.mat
+*.fig
+*.m~
+
+# Original CAD and redundant exports are not required to run cached examples.
+/data/*.stp
+/data/*.step
+/data/*.ipt
+/data/reference/cad_surface.stl
+/data/reference/section_segments_*.csv
+/reference_preview_*.png

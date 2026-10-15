@@ -1,0 +1,5 @@
+# Optional CAD preparation only. MATLAB examples use the committed CSV meshes.
+# Reference mesh: Gmsh 4.15.2. Use a separate Python 3.12 environment for audit.
+numpy>=1.24,<3
+gmsh==4.15.2
+cadquery-ocp==8.0.1.1.0

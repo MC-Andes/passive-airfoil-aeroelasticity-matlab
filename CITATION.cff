@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Si utiliza este código, cite el proyecto y registre el commit utilizado."
+title: "Passive Airfoil Aeroelasticity MATLAB"
+type: software
+authors:
+  - name: MC-Andes
+repository-code: "https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab"
+url: "https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab"
+license: MIT
+keywords:
+  - aeroelasticity
+  - finite-element-method
+  - vortex-lattice-method
+  - additive-manufacturing
+  - matlab

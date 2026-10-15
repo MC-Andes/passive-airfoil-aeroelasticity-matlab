@@ -1,0 +1,71 @@
+{
+  "source_name": "reference_airfoil.stp",
+  "source_relative_path": "data/reference_airfoil.stp",
+  "source_sha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+  "units": "m",
+  "kernel": "OpenCASCADE via Gmsh",
+  "gmsh_version": "4.15.2",
+  "cad_axes_zero_based": [
+    0,
+    2,
+    1
+  ],
+  "solid_count": 1,
+  "face_count": 587,
+  "node_count": 64265,
+  "triangle_count": 128558,
+  "minimum_m": [
+    -0.058245843498328,
+    0.048122833300533574,
+    0.0
+  ],
+  "maximum_m": [
+    0.188750317078588,
+    0.07851677922166923,
+    0.36
+  ],
+  "sections": [
+    {
+      "fraction": 0.01,
+      "span_m": 0.0035986062961936185,
+      "file": "section_01.csv",
+      "chord_m": 0.246977675175
+    },
+    {
+      "fraction": 0.255,
+      "span_m": 0.0917993031480968,
+      "file": "section_02.csv",
+      "chord_m": 0.246922908916
+    },
+    {
+      "fraction": 0.5,
+      "span_m": 0.17999999999999997,
+      "file": "section_03.csv",
+      "chord_m": 0.246960220462
+    },
+    {
+      "fraction": 0.745,
+      "span_m": 0.2682006968519031,
+      "file": "section_04.csv",
+      "chord_m": 0.24690618570700001
+    },
+    {
+      "fraction": 0.99,
+      "span_m": 0.3564013937038063,
+      "file": "section_05.csv",
+      "chord_m": 0.246982216744
+    }
+  ],
+  "interpretation": "Outer envelopes only; no materials, constraints, joints or stiffness inferred. Inspect before use.",
+  "kernel_minimum_m": [
+    -0.058254076027520967,
+    0.048120618372517535,
+    -1.4221467412045355e-06
+  ],
+  "kernel_maximum_m": [
+    0.18875173922532906,
+    0.07851938492921537,
+    0.36000142214674113
+  ],
+  "bounding_box_source": "tessellated boundary nodes"
+}
