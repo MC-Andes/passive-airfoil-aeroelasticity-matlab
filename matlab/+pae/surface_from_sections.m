@@ -28,7 +28,8 @@ if edgePolicy=="constant"
 end
 xi=(1-cos(linspace(0,pi,nx+1)))/2;
 eta=(1-cos(linspace(0,pi,ny+1)))/2;
-targetSpan=span(1)+range(span)*eta;
+spanLength=max(span)-min(span); % MATLAB base; no Statistics Toolbox dependency.
+targetSpan=span(1)+spanLength*eta;
 X=zeros(nx+1,numel(span)); Z=X;
 for j=1:numel(span)
     values=sections{j};
@@ -43,7 +44,7 @@ nodes(:,:,3)=interp1(span,Z',targetSpan,'linear')'-mean(Z(1,:));
 assert(all(chord>0),'pae:Section','Nonpositive CAD chord.');
 surface=struct('nodes',nodes,'xi',XI,'eta',ETA,'nx',nx,'ny',ny, ...
     'referenceArea',trapz(span,chord),'referenceChord',trapz(span,chord.^2)/trapz(span,chord), ...
-    'span',range(span),'source','CAD outer-envelope mean surface', ...
+    'span',spanLength,'source','CAD outer-envelope mean surface', ...
     'edgePolicy',edgePolicy,'cadSourceName',info.source_name, ...
     'canonicalOriginCAD',[min(X(1,:)),.5*(span(1)+span(end)),mean(Z(1,:))]);
 pae.panels(nodes);
