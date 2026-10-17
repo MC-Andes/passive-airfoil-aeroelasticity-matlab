@@ -1,6 +1,15 @@
 # Changelog
 
-## Unreleased — publicación inicial, 2026-10-14
+## Unreleased — borde de salida, 2026-10-17
+
+- Placa MITC4 propia y cargas de presión sobre parches físicos no coincidentes.
+- Interfaz modal común desde matrices de sólido/placa; presión temporal, FRF y Newmark.
+- Medidas TE en coordenadas físicas, RMS, espectro y comparación sincronizada.
+- Nueve geometrías PLA y 27 observaciones publicadas, con licencia y auditoría de estadísticas.
+- Diez controles nuevos; ejemplos de comparación modal y vibración con presión impuesta.
+- Documentada la separación entre presión prescrita, acoplamiento futuro y estela no implementada.
+
+## Publicación inicial, 2026-10-14
 
 - FEM sólido 3D propio con Tet4, masa consistente, apoyos y tensiones.
 - Análisis modal y Newmark estructural; VLM estacionario de herraduras.

@@ -27,8 +27,10 @@ En MATLAB, desde la raíz del proyecto:
 
 ```matlab
 addpath('matlab')
-report = run_verification();       % 11 controles VLM/reducido + 12 FEM sólido
+report = run_verification();       % 33 controles: VLM/reducido, sólido y cola
 run('matlab/run_fem_demo.m')        % ejemplo paramétrico, modos y vibración libre
+comparison = run_tail_benchmarks(); % nueve geometrías PLA publicadas
+result = run_tail_response();       % deformación TE y presión oscilante impuesta
 ```
 
 Desde una terminal donde `matlab` esté en `PATH`:
@@ -40,6 +42,11 @@ matlab -batch "addpath('matlab'); run_verification(); run('matlab/run_fem_demo.m
 Se generan CSV, figuras y archivos MAT en `results/`, excluido de Git. Los
 scripts resuelven las rutas desde el proyecto y no necesitan archivos personales.
 
+La ruta nueva de [borde de salida](docs/trailing-edge.md) incluye comparación
+con [casos publicados](docs/case-catalog.md). Mantiene el modelo desacoplado:
+la oscilación de presión del ejemplo es impuesta. La estela no estacionaria y
+el acoplamiento en dos vías quedan como etapas siguientes.
+
 ## Ejemplos disponibles
 
 | Entrada | Qué ejecuta |
@@ -50,7 +57,9 @@ scripts resuelven las rutas desde el proyecto y no necesitan archivos personales
 | `matlab/inspect_reference.m` | Inspección de triangulación y envolventes aerodinámicas. |
 | `matlab/run_demo.m` | Modelo reducido ilustrativo con barrido y transitorio cuasiestacionario. |
 | `matlab/run_reference.m` | Superficie derivada del CAD con estructura reducida ilustrativa. |
-| `matlab/run_verification.m` | Ambas suites, reportes y resumen de verificación. |
+| `matlab/run_verification.m` | Tres suites, reportes y resumen de verificación. |
+| `matlab/run_tail_benchmarks.m` | Nueve geometrías PLA publicadas: frecuencias adimensionales, errores y refinación. |
+| `matlab/run_tail_response.m` | Placa equivalente: cola estática, presión temporal impuesta y respuesta en frecuencia. |
 
 Para ejecutar el caso de referencia:
 
@@ -65,6 +74,9 @@ Los scripts sobrescriben las salidas homónimas al repetirse.
 
 ## Qué está implementado
 
+- Placa MITC4 propia para flexión delgada, masa consistente y presión distribuida.
+- Reducción modal desde matrices FEM de placas o sólidos; presión temporal y observables comunes.
+- Comparación reproducible de nueve geometrías PLA con datos medidos atribuidos (27 observaciones).
 - Elementos sólidos Tet4 con rigidez y masa consistente calculadas desde cero.
 - Ensamblaje disperso, materiales isotrópicos u ortótropos y regiones materiales.
 - Eliminación de desplazamientos prescritos, reacciones, tensiones y energía.
@@ -139,7 +151,9 @@ python3 tools/check_repository.py
 Ver [CONTRIBUTING](CONTRIBUTING.md), [CHANGELOG](CHANGELOG.md) y
 [CITATION.cff](CITATION.cff). El código y la documentación se publican con
 [licencia MIT](LICENSE), siguiendo la licencia por defecto de MC-Andes. Las
-dependencias externas conservan sus licencias y no se redistribuyen aquí.
+dependencias externas conservan sus licencias. El extracto experimental
+Huang–Zhang se distribuye bajo CC BY 4.0, con atribución y transformaciones en
+[avisos de terceros](THIRD_PARTY_NOTICES.md).
 
 La importación inicial establece `main` como excepción de arranque a la regla
 de integración por PR de [MC-Andes](https://github.com/MC-Andes/standards).

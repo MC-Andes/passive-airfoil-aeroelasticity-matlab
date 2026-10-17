@@ -37,7 +37,7 @@ jobs:
       - name: Run physics verification and parametric FEM example
         uses: matlab-actions/run-command@bfa857648f4895aa98a446fe41c85e0788421ed5 # v3
         with:
-          command: addpath('matlab'); run_verification(); run('matlab/run_fem_demo.m');
+          command: addpath('matlab'); run_verification(); run('matlab/run_fem_demo.m'); run_tail_benchmarks(); run_tail_response();
       - name: Save small verification reports
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -48,5 +48,10 @@ jobs:
             results/fem_test_results.csv
             results/fem_demo/summary.csv
             results/fem_demo/modes.csv
+            results/tail_benchmarks/*.csv
+            results/tail_benchmarks/*.png
+            results/tail_response/*.csv
+            results/tail_response/*.png
+            results/tail_response/scope.json
           if-no-files-found: ignore
           retention-days: 14
