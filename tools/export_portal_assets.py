@@ -9,7 +9,7 @@ import argparse
 import csv
 import hashlib
 import json
-import shutil
+import subprocess
 from pathlib import Path
 
 import h5py
@@ -126,6 +126,7 @@ def main():
     plt.close(fig)
 
     snapshot = {'created_date':'2026-10-17','scope':'conditional numerical study; no specimen validation',
+                'project_code_revision':subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip(),
                 'source_step_sha256':review['sourceStepSha256'],'verification_checks':69,
                 'structural':{'dofs':[3*int(r['nodes']) for r in data('results/cad_original/campaign_20261017T190836945/summary.csv')]},
                 'speed_map':review['speedMap'],'time_refinement':review['dynamic']['time'],
@@ -133,6 +134,26 @@ def main():
                 'sources':sources,'media_license':'MIT for original numerical figures and motion; plate-comparison derived data CC BY 4.0 Huang–Zhang v2',
                 'video':{'physical_window_s':[float(motion[0,0]),float(motion[-1,0])],'states':len(motion),'fps':30,'display_duration_s':len(motion)/30,'interpolated_states':False}}
     (out/'evidence.json').write_text(json.dumps(snapshot,indent=2,ensure_ascii=False)+'\n')
+    (out/'LICENSE.txt').write_text("""MC-Andes scientific publication assets — 2026-10-17
+
+Original numerical figures, sampled simulation data and silent video:
+Copyright (c) 2026 MC-Andes, MIT License.
+See https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab/blob/main/LICENSE
+
+plate-comparison.png: derivative visualization of Huang, Ke and Zhang, Jiaying
+(2026), Experimental and numerical data from comparative analysis of candidate
+structural models for active camber morphing wings, Mendeley Data v2,
+https://doi.org/10.17632/8jxw5533py.2 , CC BY 4.0.
+License: https://creativecommons.org/licenses/by/4.0/
+Changes: nine geometry groups, first bending mode; published dimensionless mean
+and sample SD plotted with own nominal MITC4 calculation; no publisher figure
+copied. Published means/subset and geometry-label ambiguities are retained.
+See data/benchmarks/huang2026_provenance.json and THIRD_PARTY_NOTICES.md in the
+source repository for the exact extract, cells, hashes and statistical cautions.
+
+No third-party article figure, full workbook, original CAD or experimental video
+is redistributed. Other references are cited by links only.
+""")
     assets=[p for p in out.iterdir() if p.is_file() and p.name!='asset-hashes.json']
     (out/'asset-hashes.json').write_text(json.dumps({p.name:digest(p) for p in sorted(assets)},indent=2)+'\n')
     print('Exported',len(assets),'curated assets to',out)
