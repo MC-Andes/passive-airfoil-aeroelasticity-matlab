@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "authorization": {
+    "date": "2026-10-17",
+    "userStatement": "Ninguna, suponla a traves del analisis de la pieza real y ejemplos de literatura",
+    "interpretation": "Use explicit conditional hypotheses where specimen/mount/slider/experimental data are unavailable; do not manufacture measurements."
+  },
+  "measuredSpecimenInputs": false,
+  "geometry": {
+    "sourceSha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+    "representation": "unchanged connected original BREP; cap-derived conforming solid mesh",
+    "axes": "canonical chord/span/height = CAD X/Z/Y; outward normals recomputed",
+    "spanEndsViscous": "capped extrusion; open cavity flow is excluded"
+  },
+  "material": {
+    "baseline": "Malim2023 Tough PLA isotropic E=2.617 GPa rho=1160 kg/m3",
+    "Poisson_assumed": 0.35,
+    "E_effective_range_Pa": [
+      2041260000.0,
+      3050000000.0
+    ],
+    "density_range_kg_m3": [
+      1124.6,
+      1240
+    ],
+    "dampingRatio_baseline": 0.008,
+    "dampingRatio_engineering_range": [
+      0.004,
+      0.016
+    ],
+    "orthotropy": "directional reduction is a sensitivity, not identified printing axes or specimen law"
+  },
+  "supports": {
+    "baseline": "all displacements zero for x/c<=0.30",
+    "comparison_x_over_c": [
+      0.25,
+      0.35
+    ],
+    "fixtureCompliance": "finite spring sensitivity is conditional; no measured fixture stiffness"
+  },
+  "slider": {
+    "candidateInterfacesCadFaces": [
+      7,
+      9
+    ],
+    "evidence": "parallel surfaces surrounding the internal bar and spanwise hole; prismatic monolithic connectivity remains",
+    "A": "unmodified monolithic elastic solid",
+    "B": "six area-averaged rigid coordinates fixed",
+    "C": "mean chord translation free, other five coordinates fixed",
+    "contactFriction": "small-motion mean-coordinate proxy; mu and preload are engineering assumptions, not identified contacts",
+    "mu_range": [
+      0,
+      0.2,
+      0.4
+    ],
+    "preload_N": [
+      0,
+      1
+    ],
+    "coordinateOffsets_m": [
+      -0.0001,
+      0,
+      0.0001
+    ]
+  },
+  "flow": {
+    "rho_kg_m3": 1.225,
+    "mu_Pa_s": 1.81e-05,
+    "referenceSpeed_ms": 10,
+    "incidence_deg": 3,
+    "speedCampaign_ms": [
+      2.5,
+      5,
+      7.5,
+      10
+    ],
+    "UVLM_regime": "incompressible attached small-disturbance; no resolved skin Cp or separated/turbulent deficit",
+    "viscousRegime": "own laminar 2D/3D MAC + Brinkman, explicit Re 20/100; tunnel-Re not extrapolated",
+    "internalPressurePrimary": "ambient in the eight open spanwise cavity ports identified from the original cap; optional vent-impedance sensitivity is a screening proxy",
+    "internalPressureViscous": "external-flow branch fills the envelope and caps its ends; no internal-flow prediction"
+  },
+  "experimentalValidation": false,
+  "gravity": {
+    "primaryOrientation": "span vertical; canonical gravity [0,-9.81,0] m/s2, assumed fixture orientation",
+    "windResponse": "increment about zero-flow shape; small-strain linear K, no finite prestress stiffness correction",
+    "checkedOrientations": "independent full FEM body loads along chord/span/height; mass-consistent gravity",
+    "measured": false
+  }
+}

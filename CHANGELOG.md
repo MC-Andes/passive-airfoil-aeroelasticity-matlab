@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased — CAD original, mecánica y flujo acoplado
+
+- Preparación de ficha científica MC-Andes, exportador de estados y figuras
+  reales, guía editorial y licencias diferenciadas de los recursos.
+
+- Mallas prismáticas del cap original, sin borrar detalles; tres niveles Tet10
+  y comparación con nodos intermedios proyectados al CAD.
+- Inversión Tri6 y presión sobre una huella física curva, con conservación de
+  fuerza, momento y trabajo; sensores materiales sobre las pieles exteriores.
+- Acción elemental estable, ordenamiento disperso, residuos de energía y
+  comparación de dinámica FEM completa/reducida.
+- Guías A/B/C, multiplicadores, contacto afín, fricción incremental, gravedad
+  y sólido total Lagrangiano con tangente consistente verificada.
+- UVLM propio, Kutta/Kelvin, estela congelada/libre y masa añadida;
+  comparaciones Theodorsen/Sears, movimiento CAD prescrito y FSI fuerte.
+- Eliminación exacta de circulación ligada y convolución por bloques para
+  reducir coste sin truncar la historia emitida.
+- Navier–Stokes MAC 2D/3D, proyección, frontera Brinkman acoplada a presión,
+  pared móvil y presupuestos explícitos para evitar extrapolación a DNS de túnel.
+- Hipótesis autorizadas por el usuario, fichas de literatura, bandas
+  condicionales y fuentes exactas guardadas al iniciar campañas nuevas.
+
 ## Unreleased — borde de salida, 2026-10-17
 
 - Placa MITC4 propia y cargas de presión sobre parches físicos no coincidentes.
@@ -22,8 +44,21 @@
   el cálculo de envergadura usa máximo menos mínimo en MATLAB base.
 - CI fijada en Ubuntu 24.04 para evitar cambios implícitos de plataforma.
 
-### Limitaciones conocidas
+### Limitaciones históricas de la publicación inicial
 
 - Diferencia de 66,1% en desplazamiento máximo entre dos mallas del caso STEP.
 - Material, empotramiento y tratamiento unido del mecanismo son supuestos.
 - Sin contacto, grandes deformaciones FEM, CFD viscoso ni flutter validado.
+
+## Desarrollo CAD original — 2026-10-17
+
+- Contratos físicos y campañas trazables sobre el STEP original, sin
+  sobrescribir referencias; atlas, intervalos de material y sensores de cola.
+- FEM Tet10, Tri6, masa consistente, superficies curvas y transferencia
+  adjunta; presión sobre un parche físico recortado y verificación de exposición.
+- Equilibrado de sistemas dispersos y refinamiento del equilibrio; once
+  controles adicionales, 44 en total.
+- Preprocesamiento rechaza mallas degeneradas o no conformes; comprobación
+  del repositorio admite archivos nuevos sin añadirlos al índice Git.
+- La convergencia estructural y validación del mecanismo permanecen sujetas
+  a los resultados y criterios registrados en el plan, sin anticipar FSI.

@@ -1,0 +1,9 @@
+function bundle = guided_bundle(system,guideModes,fullDisplacement,F,source,scenario,output)
+%GUIDED_BUNDLE CAD guide modes plus exact constrained static flexibility.
+Phi=guideModes.Phi;M=system.M;residual=fullDisplacement-Phi*(Phi'*M*fullDisplacement);mass=residual'*M*residual;basis=Phi;
+if mass>1e-20*max(fullDisplacement'*M*fullDisplacement,realmin),basis=[basis,residual/sqrt(mass)];end
+op=fem3d.action_operator(system);action=fem3d.action(op,basis);Kr=basis'*action;Mr=basis'*M*basis;Kr=(Kr+Kr')/2;Mr=(Mr+Mr')/2;[W,D]=eig(Kr,Mr);[lambda,p]=sort(real(diag(D)));W=W(:,p);for k=1:numel(lambda),W(:,k)=W(:,k)/sqrt(W(:,k)'*Mr*W(:,k));end;basis=basis*W;
+bundle=source;bundle.model.K=diag(lambda);bundle.model.M=eye(numel(lambda));bundle.model.C=diag(2*bundle.model.zeta*sqrt(lambda));bundle.model.frequencyHz=sqrt(lambda)/(2*pi);bundle.model.PhiSurface=source.surface.Oxyz*basis;bundle.model.observation=source.sensor.O*basis;bundle.config.slider.scenario=scenario;bundle.config.slider.representation='hypothesized mean-coordinate guide on CAD faces 7/9; connected solid retained';
+q=bundle.model.K\(basis'*F);error=norm(bundle.model.observation*q-source.sensor.O*fullDisplacement,inf)/max(norm(source.sensor.O*fullDisplacement,inf),realmin);assert(error<.02,'cad:GuideReduction','Guided static reduction failed.');bundle.validation=struct('fullStaticSensorRelativeError',error,'retainedGuideModes',size(Phi,2),'basisDimension',size(basis,2),'fullModeEnergyResidual',guideModes.eigenEnergyResidual,'scope','full guided CAD modes plus residual static correction; assumed guide and damping');
+if ~isfolder(output),mkdir(output);end;save(fullfile(output,'reduced_cad.mat'),'bundle','-v7.3');save(fullfile(output,'basis.mat'),'basis','-v7.3');cad.write_json(fullfile(output,'validation.json'),bundle.validation);
+end

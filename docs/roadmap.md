@@ -1,41 +1,25 @@
-# Trabajo pendiente
+# Desarrollo completado y validación posterior
 
-La publicación inicial establece un solver verificable de desarrollo. Las
-extensiones siguientes no se presentan como capacidades ya implementadas.
+El [plan del CAD original](plan-cad-original.md) se ejecuta sobre el STEP
+original, con hipótesis geométricas y bibliográficas autorizadas por el usuario.
+El [informe de resultados](cad-original-results.md) registra las campañas,
+convergencias, errores y límites de cada modelo.
 
-## Prioridad estructural
+Están implementados Tet10/Tri6 curvos, transferencia física conservativa,
+restricciones de guía, contacto/fricción, sólido total Lagrangiano, reducción
+del FEM real, acoplamiento estático, UVLM con memoria y acoplamiento dinámico
+fuerte. La extensión Navier–Stokes propia calcula estelas laminares 2D/3D con
+penalización y presión acopladas. Las placas publicadas siguen siendo
+comparaciones independientes del mecanismo del CAD.
 
-1. Resolver la convergencia del caso de referencia: investigar tetraedros
-   cuadráticos y láminas/vigas para flexuras y pieles, con benchmarks de flexión.
-2. Definir regiones físicas, espesores y orientación material de la pieza real.
-3. Incorporar guías, restricciones entre cuerpos, contacto y fricción del slider
-   cuando se conozca su arquitectura y modo de bloqueo.
-4. Implementar grandes desplazamientos/rotaciones con fuerzas internas y
-   tangente coherentes; añadir una ley material apropiada si se usan elastómeros.
+La continuación experimental requiere caracterizar impresión, masa,
+propiedades direccionales, amortiguamiento, montaje y funcionamiento del
+slider; medir desplazamiento/presión sincronizados y estela. Esos datos
+permitirían contrastar las predicciones condicionales y reducir su incertidumbre.
+No constituyen entradas medidas de las campañas presentes.
 
-## Cargas y acoplamiento
-
-1. Extender a superficies curvas la huella física implementada en `plate.pressure_map`.
-2. Validar el VLM con datos de fuerza/presión en el régimen de Reynolds de ensayo.
-3. Acoplar en dos vías la estructura FEM con actualización de geometría y
-   criterios de convergencia de cargas y desplazamientos.
-4. Incorporar memoria aerodinámica mediante UVLM o un solver viscoso cuando
-   el objetivo dinámico lo requiera. No inferir flutter de la linealización
-   cuasiestacionaria actual.
-
-## Reproducibilidad y validación
-
-- Medir propiedades efectivas de la impresión y amortiguamiento.
-- Registrar condiciones de montaje y sincronización experimental.
-- Ampliar la comparación de nueve placas PLA ya incorporada a formas modales
-  medidas y a deformación/presión de perfiles pasivos.
-- Ampliar plataformas/versiones de MATLAB verificadas.
-- Conectar el adaptador modal FEM `ael.reduce` a una interfaz FSI con cinemática
-  y carga consistentes; hoy acepta presión prescrita, sin realimentación.
-
-Cada extensión debe aportar una comparación verificable y documentar su
-dominio de validez antes de emplearse para predicciones del álabe.
-
-La placa MITC4, la comparación modal publicada y la respuesta a presión
-prescrita se describen en [borde de salida](trailing-edge.md). Son avances de
-la etapa desacoplada; la estela no estacionaria todavía no está implementada.
+Fuera del alcance verificado quedan leyes de elastómeros/viscoelasticidad sin
+identificar, transición/turbulencia a Reynolds de túnel, flutter experimental y
+PIV. Ampliar esos modelos requiere verificaciones y datos propios; el núcleo
+laminar no se presenta como URANS, LES o DNS del túnel. El presupuesto de
+recursos y las alternativas se describen en la [rama viscosa](viscous-flow.md).

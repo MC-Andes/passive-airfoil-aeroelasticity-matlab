@@ -223,6 +223,7 @@ contrastar el VLM con aerodinámica viscosa en el régimen de Reynolds pertinent
 ## Referencias metodológicas
 
 - [NASA: Optimum lattice arrangement developed from a rigorous analytical basis](https://ntrs.nasa.gov/citations/19760021094).
-- [SHARPy: arquitectura de acoplamiento aeroelástico no lineal](https://doi.org/10.21105/joss.01885). La presente implementación no reproduce sus capacidades UVLM.
+- [SHARPy: arquitectura de acoplamiento aeroelástico no lineal](https://doi.org/10.21105/joss.01885). El paquete propio `uvlm` incorpora esa familia de ecuaciones con
+  alcance y verificación propios; no usa SHARPy como motor ni reproduce todas sus capacidades.
 - [Ochi et al. (2024): validación de un perfil pasivo](https://doi.org/10.2514/1.J063000).
 - [MathWorks: geometría FEM](https://www.mathworks.com/help/pde/ug/fegeometry.html) y [análisis estructural lineal](https://www.mathworks.com/help/pde/structural-mechanics.html).

@@ -4,6 +4,7 @@
 Checks tracked files in a Git clone, or the exported tree otherwise. Generated
 results are not scientific reference inputs and must remain outside Git.
 """
+import argparse
 import ast
 import csv
 import hashlib
@@ -30,13 +31,14 @@ REQUIRED = {
 }
 
 
-def published_paths():
+def published_paths(include_working_tree=False):
     try:
         top = subprocess.check_output(
             ["git", "-C", str(ROOT), "rev-parse", "--show-toplevel"],
             stderr=subprocess.DEVNULL, text=True).strip()
         if Path(top).resolve() == ROOT:
-            raw = subprocess.check_output(["git", "-C", str(ROOT), "ls-files", "-z"])
+            raw = subprocess.check_output(["git", "-C", str(ROOT), "ls-files", "-z"] +
+                                          (["--cached", "--others", "--exclude-standard"] if include_working_tree else []))
             paths = [ROOT / name for name in raw.decode().split("\0") if name]
             if paths:
                 return paths
@@ -48,8 +50,12 @@ def published_paths():
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--include-working-tree", action="store_true",
+                        help="Also validate untracked, non-ignored new deliverables without staging them")
+    args = parser.parse_args()
     errors = []
-    paths = published_paths()
+    paths = published_paths(args.include_working_tree)
     names = {str(p.relative_to(ROOT).as_posix()) for p in paths}
     for name in sorted(REQUIRED - names):
         errors.append(f"Missing required publication file: {name}")

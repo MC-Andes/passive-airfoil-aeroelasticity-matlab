@@ -15,8 +15,10 @@ if isfield(mesh.info,'relative_volume_error')
 end
 X=readmatrix(fullfile(folder,'nodes.csv')); T=readmatrix(fullfile(folder,'tetra.csv'));
 F=readmatrix(fullfile(folder,'faces.csv'));
-mesh.nodes=X(:,axisOrder)-origin; mesh.tetra=T(:,1:4);
-mesh.cadVolume=T(:,5); mesh.cadFaces=F(:,1:3); mesh.cadFaceId=F(:,4);
+mesh.nodes=X(:,axisOrder)-origin; assert(ismember(size(T,2),[5,11]) && size(F,2)==(size(T,2)-1)/2+2, ...
+    'fem3d:Mesh','Require Tet4/Tri3 or Tet10/Tri6 CSVs with CAD labels.');
+mesh.tetra=T(:,1:end-1);
+mesh.cadVolume=T(:,end); mesh.cadFaces=F(:,1:end-1); mesh.cadFaceId=F(:,end);
 % Compute orientations from volume connectivity; CAD face orientation may differ.
 [mesh.faces,mesh.faceOwners]=fem3d.boundary(mesh.tetra,mesh.nodes);
 mesh.materialId=ones(size(T,1),1);

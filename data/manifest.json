@@ -224,6 +224,11 @@
       "path": "data/benchmarks/huang2026_provenance.json",
       "sha256": "fdd89110ae388e92964f5094ca25ca1a336376a471a9af9c1a9116faef2f70dc",
       "bytes": 2271
+    },
+    {
+      "path": "data/benchmarks/cad_literature.json",
+      "sha256": "e997b98e759cb9d7c3904b481fd83b3eeb9f4b224f77d924c3e2a284eb204489",
+      "bytes": 9981
     }
   ]
 }

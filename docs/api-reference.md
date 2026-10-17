@@ -184,7 +184,7 @@ Estas opciones no son parámetros del FEM lineal `fem3d.solve_static`.
 
 ## Entrada de verificación
 
-`report=run_verification()` ejecuta ambas suites y escribe CSV/JSON bajo
+`report=run_verification()` ejecuta las cuatro suites y escribe CSV/JSON bajo
 `results/verification/`. Un test fallido interrumpe la ejecución con error.
 La interfaz no descarga dependencias ni necesita una sesión gráfica.
 
@@ -215,3 +215,63 @@ Estas funciones usan MATLAB base y apoyos homogéneos.
 `ael` no sustituye las funciones cuasiestacionarias de `pae`; integra una
 estructura lineal bajo entradas prescritas. B/O de sólidos deben construirse
 con su orden intercalado de traslaciones; los de placa contienen pendientes.
+
+## Sólido cuadrático y campaña CAD
+
+La ruta completa y sus criterios se describen en [campaña CAD](cad-original.md).
+
+| Función | Contrato |
+| --- | --- |
+| `fem3d.elevate(mesh)` | Eleva Tet4 a Tet10 conforme, con aristas rectas; no proyecta al CAD. Conserva etiquetas de caras. |
+| `fem3d.tet10(X,D,rho,order)` | K30×30, M30×30, B de centroide, volumen e informe de jacobianos. Orden Duffy por eje por defecto 4; geometría afín sin argumento de orden usa integrales exactas. |
+| `fem3d.tet10_shape(r)` | Funciones cuadráticas y derivadas; aristas 12,23,31,14,24,34. |
+| `fem3d.tri_shape(r,count)` | Tri3/Tri6; aristas de cara 12,23,31. |
+| `fem3d.surface_quadrature(mesh,faces,order)` | H, puntos, normales y pesos de área en caras explícitas Tri3/Tri6, incluida geometría curva. |
+| `fem3d.traction(mesh,faces,load)` | Presión positiva hacia dentro o tracción cartesiana. También acepta callback `@(points,normals)` que devuelve Nq×1 o Nq×3. |
+| `fem3d.plot_faces(faces)` | Triángulos de visualización y mapa a caras físicas; Tri6 se divide en cuatro. |
+| `cad.load_case(root,path)` | Contrato versionado; valida auditoría de fuente y escenario A; calcula Re y b/c. |
+| `cad.transform(axisOrder,origin)` | Matriz R de vectores polares y det(R)R de momentos axiales; origen expresado en ejes permutados. |
+| `cad.face_labels(mesh)` | Une caras FEM a etiquetas CAD por conectividad, rechazando pérdidas o duplicados. |
+| `cad.pressure_patch(mesh,config)` | Recorte físico de piel exterior Tri3/Tri6; integración, H y fuerza por Pa, exposición y balances; delega geometría curva en `cad.curved_patch`. |
+| `cad.sensors(mesh,config)` | H y O de nueve puntos materiales cerca del TE, sin ajuste a nodo cercano; inversión paramétrica Newton sobre Tri6 curvos. |
+| `cad.atlas(mesh,config,output)` | Firmas por cara CAD, localización de elementos esbeltos e intervalos verticales de material. |
+| `cad.resource_estimate(mesh)` | Aristas reales, DOFs Tet10 y cota de tripletas sin ensamblar el sistema. |
+| `cad.modal_compare(a,b,eta)` | MAC ponderado y asignación de modos observados; marca cercanía modal que exige subespacios. |
+| `run_cad_original(casePath,runTet10)` | Campaña sin sobrescrituras: tres niveles del elemento configurado, piloto opcional, curva de presión, modos, FRF condicional y aceptación. |
+
+`assemble`, `boundary`, `read_mesh`, `check_supports`, `stress` y `plot_result`
+aceptan ahora Tet4/Tet10 y Tri3/Tri6. El CSV de tetraedros contiene 4 o 10
+nodos y una etiqueta de volumen; el de caras, 3 o 6 nodos y una etiqueta CAD.
+La recuperación de tensiones de Tet10 es de centroide. `solve_static` usa
+Cholesky disperso equilibrado y refinamiento con el operador original; guarda
+su historia de residuos. `modal` equilibra K/M mediante la misma congruencia
+y calcula residuos en las coordenadas originales.
+
+`run_cad_modal_response(solutionFolder)` calcula un decaimiento modal libre
+a partir de un `solution.mat` CAD, compara dos pasos temporales con la
+solución analítica amortiguada y guarda señales, RMS/espectro, energía y
+alcance. El amortiguamiento es supuesto y la perturbación inicial impuesta;
+no simula una excitación del flujo ni valida la reducción espacial.
+
+
+## Mecánica, FSI y estela
+
+| Interfaz | Contrato |
+| --- | --- |
+| `fem3d.solve_constrained`, `solve_contact`, `solve_friction` | Restricciones exactas, conjunto activo unilateral y fricción incremental con disipación. |
+| `fem3d.nonlinear_element`, `solve_nonlinear` | Sólido total Lagrangiano Saint Venant–Kirchhoff, tangente consistente y continuación. |
+| `fem3d.modal_constrained`, `newmark_observed` | Modos guiados sin penalización y observación de transitorio completo sin guardar todos los estados. |
+| `cad.build_reduced`, `remap_reduced` | Base del FEM CAD con flexibilidad residual; nueva malla fluida conserva K/M y observación. |
+| `fsi.static`, `dynamic`, `linear_dynamic` | Equilibrio con geometría actualizada, partición fuerte UVLM/Newmark y tangente con memoria completa. |
+| `uvlm.initialize`, `step`, `linear_model` | Anillos/Kutta, estela congelada o libre, cargas estacionarias/no estacionarias y tangente. |
+| `uvlm.wake_vertex_gradient` | Derivada analítica del vértice compartido por dos segmentos; contraste complejo independiente. |
+| `fsi.compact_dynamic`, `truncate` | Eliminación Schur exacta y subconjunto modal consistente de todos los operadores. |
+| `nsflow.project_penalized`, `external` | Proyección variable presión/Brinkman y flujo exterior conservativo 2D/3D. |
+| `nsflow.surface_traction` | Presión y esfuerzo viscoso 2D fuera de la máscara, con referencia Cp aguas arriba explícita. |
+| `run_cad_aeroelastic` | Campaña estática/dinámica con dt, paneles, núcleo, longitud de estela y alcance declarados. |
+| `run_cad_viscous`, `run_cad_viscous_postprocess` | Campañas Re/malla/dominio/reinicio y perfiles físicos comunes de estela. |
+| `build_native_kernels` | Compilación opcional de kernels C propios equivalentes; todo el solver admite alternativa MATLAB. |
+
+Las [guías acoplada](cad-coupled.md) y [viscosa](viscous-flow.md) describen
+unidades, hipótesis, conservación y reproducción. Los runners de sensibilidad
+no son calibraciones del espécimen ni modelos de turbulencia.

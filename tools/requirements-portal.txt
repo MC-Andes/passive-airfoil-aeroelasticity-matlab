@@ -1,0 +1,6 @@
+# Optional figure export only; not required by the MATLAB solver or CI.
+numpy==1.26.4
+matplotlib==3.9.4
+h5py==3.14.0
+pillow==11.3.0
+imageio-ffmpeg==0.6.0

@@ -7,7 +7,8 @@ addpath('matlab')
 report = run_verification();
 ```
 
-El wrapper ejecuta `run_tests`, `run_fem_tests` y `run_tail_tests`. Las suites usan referencias
+El wrapper ejecuta siete suites: `run_tests`, `run_fem_tests`, `run_tail_tests`,
+`run_cad_tests`, `run_mechanics_extension_tests`, `run_uvlm_tests` y `run_viscous_tests`. Las suites usan referencias
 analíticas o invariantes de física y fallan con un error cuando no cumplen sus
 criterios. Los resultados se guardan bajo `results/verification/` y el FEM
 también mantiene `results/fem_test_results.csv` por compatibilidad.
@@ -57,10 +58,11 @@ El test llamado `divergence_failure` no identifica divergencia experimental del
 ## Tres niveles distintos
 
 1. **Verificación de implementación:** comprobar que el código reproduce sus
-   ecuaciones y referencias. Las 33 pruebas pertenecen a este nivel.
+   ecuaciones y referencias. Las siete suites pertenecen a este nivel.
 2. **Convergencia de discretización:** comprobar que una magnitud deja de
    depender materialmente del tamaño/tipo de elemento, malla VLM y paso temporal.
-   No está lograda para la respuesta estructural del STEP.
+   La campaña Tet10 actual cumple los criterios de cola y banda declarada;
+   las dos mallas Tet4 históricas no los cumplían.
 3. **Validación física:** comparar predicciones con ensayos de la misma pieza,
    impresión, montaje y flujo, considerando incertidumbre. Está pendiente para
    el álabe. Se compara por separado una familia publicada de placas PLA.
@@ -117,5 +119,46 @@ en el extracto. La columna de cambio de malla corresponde al primer modo,
 no a convergencia de todas las frecuencias o tensiones.
 
 La CI ejecuta además los dos ejemplos de cola; conserva CSV, PNG y alcance.
-La comparación de placas no convierte las 33 verificaciones numéricas en
+La comparación de placas no convierte las verificaciones numéricas en
 validación de la geometría STEP. Ver [auditoría y resultados](case-catalog.md).
+
+## Verificación del CAD y Tet10
+
+`run_verification` ejecuta también `run_cad_tests`: once controles adicionales
+para conservar los 33 históricos. Se verifican seis movimientos rígidos y
+masa consistente; solución afín con tracciones analíticas y apoyos no nulos;
+permutaciones de vértices/aristas; cuadratura curva 4/6/8; rechazo de pliegues;
+resultantes analíticas sobre Tri6 curvos; flexión y frecuencia de viga;
+reflexión de momentos; integración en parche exterior del CAD con nueve
+sensores; vibración libre Tet10 contra coseno modal y energía; y SHA256
+conocido/procedencia del contrato. Las funciones usan MATLAB base; para
+hashes se usa `shasum`, `sha256sum` o `certutil`, sin necesitar JVM.
+
+En el benchmark Tet10 de viga esbelta, los errores de flexión en tres niveles
+son aproximadamente 1,50%, 0,331% y 0,0484%; los de la primera frecuencia,
+1,17%, 0,250% y 0,0299%. Estos son resultados de verificación sobre una viga
+isótropa de referencia; no representan el mecanismo del STEP.
+
+La [campaña CAD](cad-original.md) evalúa por separado los criterios de
+convergencia de desplazamiento, energía, modos y residuos originales.
+Un CSV generado o una factorización exitosa no son criterios de cierre.
+
+
+## Extensiones del CAD, UVLM y flujo viscoso
+
+Los controles CAD verifican Tet10/Tri6, inversión y recorte curvos,
+conservación, reflexión y observación material. La mecánica añade tangente
+no lineal, movimientos rígidos finitos, restricciones, contacto, fricción,
+modos guiados y observación de dinámica completa. El UVLM contrasta kernels,
+Kelvin/trabajo, Theodorsen, límite estacionario, estela libre, realimentación,
+energía, tangente y derivada de vértices de estela. La formulación compacta y
+la convolución por bloques se comparan con la integración completa.
+
+Navier–Stokes contrasta proyección, difusión/convección y soluciones analíticas
+2D/3D, además del acoplamiento presión/penalización y su balance de cantidad
+de movimiento. El cilindro publicado y la refinación del CAD se ejecutan como
+campañas separadas; no se confunden con pruebas unitarias pequeñas.
+
+El [informe actual](cad-original-results.md) distingue los criterios aceptados,
+los diagnósticos históricos y las limitaciones físicas. Un control que pasa
+no demuestra validación experimental del espécimen.

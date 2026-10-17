@@ -1,0 +1,9 @@
+function comparison = run_cad_geometry_comparison(affineFolder,curvedMeshFolder)
+%RUN_CAD_GEOMETRY_COMPARISON Full FEM comparison at the same physical pressure.
+% Curved mesh comes from project_step_quadratic.py; no frozen-basis Ritz
+% estimate is substituted for reoptimization of the displacement/eigenfields.
+root=fileparts(fileparts(mfilename('fullpath')));a=load(fullfile(affineFolder,'solution.mat'),'config','result','sensor','modes');c=a.config;mesh=fem3d.read_mesh(curvedMeshFolder,c.geometry.axisOrder,c.geometry.origin_m);assert(size(mesh.tetra,2)==10 && strcmp(mesh.info.source_sha256,c.geometry.sourceSha256));assert(3*size(mesh.nodes,1)<=c.discretization.maximumPilotDofs);mesh.curvedBatch=true;
+out=fullfile(affineFolder,"curved_geometry_"+string(datetime('now','TimeZone','UTC','Format','yyyyMMdd''T''HHmmssSSS')));mkdir(out);cad.provenance(root,c,out);system=fem3d.assemble(mesh,fem3d.material_reference(string(c.material.reference)));patch=cad.pressure_patch(mesh,c);sensor=cad.sensors(mesh,c);bc=struct('dofs',fem3d.dofs(find(mesh.nodes(:,1)<=c.supports.x_over_c*c.geometry.chord_m)));pressure=100;
+result=fem3d.solve_static(system,pressure*patch.unitForce,bc);modes=fem3d.modal(system,bc,numel(a.modes.frequencyHz));reference=pressure*a.sensor.O*a.result.u;
+comparison=struct('output',out,'pressure_Pa',pressure,'affineStoredPressure_Pa',1,'tailSensorRelative',norm(sensor.O*result.u-reference,inf)/norm(reference,inf),'frequencyRelative',abs(modes.frequencyHz./a.modes.frequencyHz-1),'curvedFrequency_Hz',modes.frequencyHz,'curvedMass_kg',system.totalMass,'energyResidual',result.energyResidual,'scope','full FEM CAD-projected geometry compared at equal pressure; conditional monolithic model');cad.write_json(fullfile(out,'comparison.json'),comparison);save(fullfile(out,'solution.mat'),'result','modes','sensor','c','comparison','-v7.3');disp(comparison);
+end

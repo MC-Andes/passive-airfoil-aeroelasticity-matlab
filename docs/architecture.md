@@ -113,3 +113,19 @@ Los identificadores CAD no se convierten automáticamente en materiales o
 contactos. El generador NACA produce un sólido macizo truncado, no el mecanismo
 del STEP. El resultado de un solver lineal tampoco adquiere grandes rotaciones
 por asignarle un módulo de Young bajo.
+
+
+## Extensión sobre el sólido CAD
+
+`cad` mantiene regiones/sensores y transforma las pieles reales en una
+superficie de carga material. `fem3d` aporta Tet10 y restricciones/no linealidad;
+`fsi` usa la base derivada de ese sólido y el adjunto de la cinemática. `uvlm`
+añade memoria aerodinámica explícita y partición fuerte. `nsflow` calcula por
+separado flujo viscoso laminar sobre la envolvente auditada, con cavidades
+selladas declaradas para esa variante fluida. Los contratos conservan el STEP
+principal intacto. Los kernels C opcionales aceleran exactamente Biot–Savart;
+la implementación MATLAB es la alternativa de referencia.
+
+Los modelos históricos reducidos cuasiestacionarios conservan su interfaz y
+sus límites; la presencia de UVLM en otro paquete no los convierte en modelos
+con memoria. La [ruta CAD](cad-coupled.md) documenta las interfaces nuevas.
