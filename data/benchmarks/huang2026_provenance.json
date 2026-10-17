@@ -1,0 +1,39 @@
+{
+  "authors": [
+    "Ke Huang",
+    "Jiaying Zhang"
+  ],
+  "dataset_doi": "10.17632/8jxw5533py.2",
+  "article_doi": "10.1016/j.dib.2026.113015",
+  "dataset_version": 2,
+  "dataset_url": "https://data.mendeley.com/datasets/8jxw5533py/2",
+  "workbook_url": "https://data.mendeley.com/public-files/datasets/8jxw5533py/files/d8280c9e-63d7-43fb-8d27-a7e511452f9c/file_downloaded",
+  "workbook_sha256": "34545c9f937404864ad34a4d6dd5c03c0f23b20138115a5bf3dc61fea5749408",
+  "workbook_name": "1-1 Modal Test Experiment and Numerical Results.xlsx",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "changes": "Selected first three frequency-ordered modes in nine PLA geometry groups; cached dimensionless means/sample SD and individual Hz transcribed without recalculation; geometry-based IDs and separate all-three means added. Sample SD checked against cached replicate values; published subset means preserved and flagged.",
+  "nominal_geometry": {
+    "chord_m": 0.05,
+    "rigid_thickness_m": 0.004,
+    "flexible_thickness_m": 0.001,
+    "span_m": "aspect_ratio * chord_m",
+    "flexible_region": "aft chord strip"
+  },
+  "normalization": "Omega = 2*pi*f*L^2*sqrt(rho*tR / (E*tR^3/(12*(1-nu^2))))",
+  "nominal_model_parameters": {
+    "E_Pa": 2110000000.0,
+    "nu": 0.3,
+    "rho_kg_m3": 1180
+  },
+  "model_parameter_source": "AR5fef0d5PPModel.bdf MAT1 and PSHELL in the same dataset",
+  "support": "y=0 on rigid chord region only for stepped plates; whole root for uniform",
+  "support_source": "AR5fef0d5PPModel.bdf SPC1 set 11: x=0..0.025 m, y=0",
+  "cautions": [
+    "Workbook Test4/Test6 geometry labels disagree with article Table 1; keyed by AR/f.",
+    "Published means in rows 46:48 use H/L and rows 97:99 use D/H, while SD uses D/H/L. Published means are preserved; a separate all-three mean and flag expose the difference.",
+    "Source normalization uses specimen-specific dimensions and materials; raw Hz are not direct targets for a single nominal material.",
+    "Sample SD is replicate spread, not a confidence interval or total uncertainty.",
+    "Only first bending mode has an unambiguous identification in this reduced extract; other comparisons use frequency order, not measured mode-shape matching."
+  ]
+}

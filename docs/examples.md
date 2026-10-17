@@ -117,3 +117,23 @@ Para un estudio propio es preferible crear una función o script independiente
 que llame a la API y escriba en otro directorio. Registrar como mínimo commit,
 versión de MATLAB, geometría, material, apoyos, flujo y tamaños de malla.
 Consultar [API](api-reference.md) para el formato de cada estructura.
+
+## Cola flexible y casos publicados
+
+```matlab
+addpath('matlab')
+comparison = run_tail_benchmarks();
+result = run_tail_response();
+```
+
+`run_tail_benchmarks([8,16])` compara nueve placas PLA y guarda
+`results/tail_benchmarks/modal_comparison.csv` y una figura del primer modo.
+Las columnas separan frecuencia adimensional calculada, media/SD experimental,
+error y cambio de malla. No se ajustan parámetros.
+
+`run_tail_response()` usa una placa plana de las dimensiones externas del
+álabe, sin slider, y presión VLM media más oscilación sinusoidal impuesta.
+Guarda estática, RMS, fase/amplitud en frecuencia, historia central y tres
+figuras sencillas bajo `results/tail_response/`. `scope.json` registra la
+procedencia de la excitación y los límites. Este ejemplo no calcula estela.
+Ver [formulación y contratos](trailing-edge.md).

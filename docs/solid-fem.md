@@ -235,9 +235,9 @@ los de impresión aportan propiedades y sus límites de transferencia.
 Además, [el conjunto de datos de Huang y Zhang, versión 2, junio de
 2026](https://data.mendeley.com/datasets/8jxw5533py/2) publica ensayos de PLA
 impreso en siete orientaciones, datos modales, tolerancias, CAD y archivos FEM.
-Es un candidato concreto para la próxima validación experimental del solver,
-especialmente al añadir láminas. Esta entrega enlaza el conjunto de datos; sus
-ensayos todavía no se incorporaron ni se ajustaron a la geometría del usuario.
+La ruta nueva incorpora un extracto de nueve geometrías de placa y compara
+frecuencias con una formulación MITC4 propia. Ver [casos publicados](case-catalog.md).
+Esta comparación no resuelve la convergencia del sólido STEP ni identifica su slider.
 
 La conclusión de implementación es que MATLAB resulta adecuado para construir
 y verificar el solver propio. La dificultad principal es elegir una cinemática

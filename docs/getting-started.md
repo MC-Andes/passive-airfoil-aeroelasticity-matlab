@@ -33,7 +33,7 @@ report = run_verification();
 run('matlab/run_fem_demo.m')
 ```
 
-La primera llamada ejecuta las 23 verificaciones y crea reportes bajo
+La primera llamada ejecuta las 33 verificaciones y crea reportes bajo
 `results/verification/`. La segunda calcula un caso paramétrico, sus primeros
 modos y una vibración estructural libre. Las figuras del FEM se exportan sin
 abrir una ventana interactiva.

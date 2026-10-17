@@ -187,3 +187,31 @@ Estas opciones no son parámetros del FEM lineal `fem3d.solve_static`.
 `report=run_verification()` ejecuta ambas suites y escribe CSV/JSON bajo
 `results/verification/`. Un test fallido interrumpe la ejecución con error.
 La interfaz no descarga dependencias ni necesita una sesión gráfica.
+
+## Placa y adaptador desacoplado de presión
+
+La formulación, convenciones y ejemplos se detallan en
+[borde de salida](trailing-edge.md) y [casos publicados](case-catalog.md).
+Estas funciones usan MATLAB base y apoyos homogéneos.
+
+| Función | Contrato |
+| --- | --- |
+| `plate.mesh(x,y,t)` | Vectores crecientes en metros; espesor escalar o callback de centroides; devuelve cuadriláteros antihorarios. |
+| `plate.shape(xi,eta)` | N y derivadas paramétricas bilineales; nodos (-1,-1),(1,-1),(1,1),(-1,1). |
+| `plate.mitc4(X,t,E,nu,rho)` | K12×12, M12×12, cargas por Pa12×1 y área; X4×2. DOFs intercalados w,theta_x,theta_y. |
+| `plate.assemble(mesh,material)` | K, M dispersas, P por presión elemental, masa y áreas. Material E,nu,rho. |
+| `plate.pressure_map(mesh,xEdges,yEdges)` | B3N×Nparches para presiones rectangulares; x más rápido. Fuerza y primeros momentos conservados para ese campo. |
+| `plate.probe(mesh,points,component)` | O para puntos Nsensores×2; componente 1=w, 2=theta_x, 3=theta_y. |
+| `ael.static(K,fixed,F,O)` | Equilibrio completo; F puede tener varias columnas. Devuelve U,Y,reacciones y residual relativo. |
+| `ael.reduce(K,M,fixed,count,zeta,B,O)` | Modos normalizados en masa, matrices modales M/C/K/B/O, Phi, frecuencias y residuos. Sin suponer orden físico de DOFs. |
+| `ael.harmonic(model,fHz,input)` | Amplitudes pico complejas; input Ncanales×1 o ×Nfrecuencias. Exp(i*omega*t). |
+| `ael.transient(model,time,inputFcn,q0,v0)` | Newmark beta=1/4,gamma=1/2; estados iniciales modales opcionales cero. Q/V/A,Y,energía,residuo. |
+| `ael.pressure_history(time,pressure)` | Callback desde presiones Ncanales×Ntiempos Pa; interpolación lineal, sin extrapolación. |
+| `ael.response_metrics(time,Y)` | Señales Nsensores×Ntiempos uniformes: media, RMS fluctuante, pico a pico, espectro Hann y bin dominante. |
+| `ael.compare_series(t,Y,tRef,Yref,scale)` | Interpola simulación a observaciones cubiertas; bias,RMSE,RMSE/scale,error máximo. Sin ajuste de fase. |
+| `ael.reference_cases()` | Nueve structs con geometría/material nominal, datos experimentales y procedencia. |
+| `ael.build_plate_case(c,nChord)` | Sistema placa y DOFs de apoyo para el contrato de caso publicado; incorpora interfaz de espesores. |
+
+`ael` no sustituye las funciones cuasiestacionarias de `pae`; integra una
+estructura lineal bajo entradas prescritas. B/O de sólidos deben construirse
+con su orden intercalado de traslaciones; los de placa contienen pendientes.

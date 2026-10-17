@@ -86,7 +86,9 @@ Xdeformed = reshape(X(:)+structure.Phi*q,size(X));
 No conectar `modes.Phi` del FEM directamente a `pae.make_model`: difieren el
 orden de componentes, los nodos y el significado de sus coordenadas. Haría
 falta interpolar, reordenar y proyectar las matrices de manera consistente.
-Esa reducción automática no está implementada.
+El adaptador nuevo `ael.reduce` sí proyecta K/M y operadores explícitos B/O
+de un sólido o una placa a coordenadas modales. No construye automáticamente
+una superficie deformable `pae` ni su transferencia FSI. Ver [borde de salida](trailing-edge.md).
 
 ## Tensores y fuerzas
 

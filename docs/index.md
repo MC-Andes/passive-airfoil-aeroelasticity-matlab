@@ -19,12 +19,15 @@ de un VLM de herraduras de forma desacoplada.
 | Usar el modelo reducido cuasiestacionario | [Modelo reducido](reduced-model.md) |
 | Solicitar información al equipo experimental | [Datos experimentales](experimental-data.md) |
 | Consultar bibliografía y procedencia de materiales | [Referencias](references.md) |
+| Estudiar desplazamiento y vibración de la cola | [Borde de salida](trailing-edge.md) |
+| Comparar geometrías y datos publicados | [Casos de referencia](case-catalog.md) |
 | Conocer trabajo pendiente | [Hoja de ruta](roadmap.md) |
 
 ## Estado científico
 
-La verificación implementada comprende 12 controles del FEM sólido y 11 del
-VLM/modelo reducido. Estos controles no equivalen a validación experimental.
+La verificación comprende 12 controles del FEM sólido, 11 VLM/reducido y
+10 de placa/dinámica/observables. La comparación experimental de nueve
+placas PLA se ejecuta por separado; no valida el mecanismo del usuario.
 El caso derivado del STEP conserva una diferencia de aproximadamente 66,1% en
 desplazamiento máximo entre dos mallas. El volumen está auditado, pero la
 discretización estructural todavía no permite una predicción cuantitativa

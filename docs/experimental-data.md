@@ -58,3 +58,22 @@ además, un modelo aerodinámico no estacionario y validación del acoplamiento.
 No ajustar E para compensar simultáneamente un apoyo incorrecto, error de
 espesor y una malla no convergida: esas fuentes deben distinguirse en la
 identificación y en la incertidumbre reportada.
+
+## Información adicional para cola y estela
+
+Desplazamiento del borde de salida: estaciones de envergadura y coordenadas
+x/c, forma de referencia y medida temporal sincronizada. Si se mide giro,
+definir longitud o puntos con los que se calcula la pendiente.
+
+Presión no estacionaria: posiciones y áreas representativas de tomas de ambas
+caras, signos, frecuencia de muestreo y ancho de banda de sensores/tubos.
+Entregar presión diferencial y reloj común con la deformación para comparar
+fase y espectro, además de la presión media.
+
+Modos y amortiguamiento: ensayo sin flujo, método de excitación, FRF, formas
+modales y decaimiento. Repetir para posiciones del slider y documentar montaje.
+
+Estela: indicar si se observará con PIV, hilo caliente o visualización. Solicitar
+velocidad/deficiencia y fluctuaciones en planos con coordenadas y distancia
+al borde de salida, resolución espacial/temporal y sincronización con la cola.
+Distinguir una imagen cualitativa de un campo de velocidad para validación.

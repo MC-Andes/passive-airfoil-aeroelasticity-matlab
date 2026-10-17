@@ -7,7 +7,7 @@ addpath('matlab')
 report = run_verification();
 ```
 
-El wrapper ejecuta `run_tests` y `run_fem_tests`. Ambas suites usan referencias
+El wrapper ejecuta `run_tests`, `run_fem_tests` y `run_tail_tests`. Las suites usan referencias
 analíticas o invariantes de física y fallan con un error cuando no cumplen sus
 criterios. Los resultados se guardan bajo `results/verification/` y el FEM
 también mantiene `results/fem_test_results.csv` por compatibilidad.
@@ -57,12 +57,13 @@ El test llamado `divergence_failure` no identifica divergencia experimental del
 ## Tres niveles distintos
 
 1. **Verificación de implementación:** comprobar que el código reproduce sus
-   ecuaciones y referencias. Las 23 pruebas pertenecen a este nivel.
+   ecuaciones y referencias. Las 33 pruebas pertenecen a este nivel.
 2. **Convergencia de discretización:** comprobar que una magnitud deja de
    depender materialmente del tamaño/tipo de elemento, malla VLM y paso temporal.
    No está lograda para la respuesta estructural del STEP.
 3. **Validación física:** comparar predicciones con ensayos de la misma pieza,
-   impresión, montaje y flujo, considerando incertidumbre. Está pendiente.
+   impresión, montaje y flujo, considerando incertidumbre. Está pendiente para
+   el álabe. Se compara por separado una familia publicada de placas PLA.
 
 La corrida histórica del STEP muestra un cambio de aproximadamente 66,1% en
 desplazamiento máximo entre las dos mallas publicadas. El volumen se aproxima
@@ -93,3 +94,28 @@ geométrica usa los CSV y la auditoría incluida. La disponibilidad de MATLAB
 en Actions corresponde al mecanismo oficial para repositorios públicos de
 [MathWorks](https://github.com/matlab-actions/setup-matlab#licensing).
 No se necesitan secretos para este flujo público.
+
+## Placa y respuesta de la cola: diez controles nuevos
+
+| Control | Comparación independiente |
+| --- | --- |
+| `plate_rigid_modes` | Tres movimientos rígidos, sin modos espurios, masa positiva en cuadrilátero distorsionado. |
+| `thin_cantilever` | Flexión de viga bajo presión uniforme, nu=0 y h/L de 1e-2 a 1e-4; verifica ausencia de bloqueo severo. |
+| `simply_supported_plate` | Primera frecuencia frente a solución de Navier. |
+| `pressure_patch_conservation` | Mallas no coincidentes: fuerza, primeros momentos y trabajo afín del campo de presión. |
+| `harmonic_oscillator` | Amplitud y fase complejas exactas, incluido DC y resonancia amortiguada. |
+| `forced_time_convergence` | Oscilador forzado exacto; convergencia temporal de segundo orden. |
+| `pressure_history_bounds` | Interpolación de canales y rechazo de extrapolación. |
+| `modal_solid_adapter` | Frecuencias de un sólido frente a su ruta modal original. |
+| `published_data_audit` | Nueve geometrías, 27 registros, identificación del primer B y seis medias parciales documentadas. |
+| `observable_comparison` | Sesgo/RMSE conocidos, normalización física, RMS y frecuencia impuesta de 5 Hz. |
+
+`run_tail_benchmarks()` ejecuta **por separado** la comparación experimental.
+Usa refinaciones [8,16] por defecto y publica errores de los tres primeros
+rangos de frecuencia. Solo el primer modo B tiene identificación inequívoca
+en el extracto. La columna de cambio de malla corresponde al primer modo,
+no a convergencia de todas las frecuencias o tensiones.
+
+La CI ejecuta además los dos ejemplos de cola; conserva CSV, PNG y alcance.
+La comparación de placas no convierte las 33 verificaciones numéricas en
+validación de la geometría STEP. Ver [auditoría y resultados](case-catalog.md).

@@ -15,7 +15,7 @@ extensiones siguientes no se presentan como capacidades ya implementadas.
 
 ## Cargas y acoplamiento
 
-1. Controlar la huella de cargas distribuidas durante el refinamiento.
+1. Extender a superficies curvas la huella física implementada en `plate.pressure_map`.
 2. Validar el VLM con datos de fuerza/presión en el régimen de Reynolds de ensayo.
 3. Acoplar en dos vías la estructura FEM con actualización de geometría y
    criterios de convergencia de cargas y desplazamientos.
@@ -27,11 +27,15 @@ extensiones siguientes no se presentan como capacidades ya implementadas.
 
 - Medir propiedades efectivas de la impresión y amortiguamiento.
 - Registrar condiciones de montaje y sincronización experimental.
-- Añadir comparación con benchmarks experimentales publicados, conservando
-  licencias y procedencia de los datos.
+- Ampliar la comparación de nueve placas PLA ya incorporada a formas modales
+  medidas y a deformación/presión de perfiles pasivos.
 - Ampliar plataformas/versiones de MATLAB verificadas.
-- Empaquetar reducción modal desde el FEM con el reordenamiento e interpolación
-  correctos; hoy la ruta reducida requiere una entrada estructural independiente.
+- Conectar el adaptador modal FEM `ael.reduce` a una interfaz FSI con cinemática
+  y carga consistentes; hoy acepta presión prescrita, sin realimentación.
 
 Cada extensión debe aportar una comparación verificable y documentar su
 dominio de validez antes de emplearse para predicciones del álabe.
+
+La placa MITC4, la comparación modal publicada y la respuesta a presión
+prescrita se describen en [borde de salida](trailing-edge.md). Son avances de
+la etapa desacoplada; la estela no estacionaria todavía no está implementada.

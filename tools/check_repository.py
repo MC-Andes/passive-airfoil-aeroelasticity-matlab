@@ -25,6 +25,8 @@ REQUIRED = {
     "docs/references.md", "docs/roadmap.md", "matlab/run_verification.m",
     "matlab/run_fem_demo.m", "matlab/run_fem_reference.m", "matlab/run_fem_convergence.m",
     "matlab/tests/run_tests.m", "matlab/tests/run_fem_tests.m",
+    "matlab/tests/run_tail_tests.m", "matlab/run_tail_benchmarks.m", "matlab/run_tail_response.m",
+    "docs/trailing-edge.md", "docs/case-catalog.md", "THIRD_PARTY_NOTICES.md",
 }
 
 
