@@ -2,7 +2,7 @@ function check_supports(mesh,bc)
 %CHECK_SUPPORTS Every connected solid must have six rigid motions restrained.
 % This check does not detect all internal mechanisms; Cholesky checks Kff too.
 T=mesh.tetra; nn=size(mesh.nodes,1);
-pairs=[1,2;1,3;1,4;2,3;2,4;3,4];
+pairs=[ones(size(T,2)-1,1),(2:size(T,2))'];
 i=T(:,pairs(:,1)); j=T(:,pairs(:,2));
 adj=sparse([i(:);j(:)],[j(:);i(:)],1,nn,nn);
 component=conncomp(graph(adj,'upper'))';

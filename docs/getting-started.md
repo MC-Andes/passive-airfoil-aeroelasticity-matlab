@@ -1,5 +1,11 @@
 # Instalación y ejecución
 
+Para la geometría actualizada, PETG y accionamiento por servo, seguir la
+[guía del ala morphing](morphing-wing.md). Los ejemplos siguientes siguen
+siendo verificaciones reproducibles y las campañas antiguas conservan su
+propia configuración; no son la semiala actual por defecto.
+
+
 ## Requisitos
 
 - MATLAB R2026a es la versión verificada localmente. La CI solicita R2026a.
@@ -33,7 +39,7 @@ report = run_verification();
 run('matlab/run_fem_demo.m')
 ```
 
-La primera llamada ejecuta las 23 verificaciones y crea reportes bajo
+La primera llamada ejecuta las siete suites de verificación y crea reportes bajo
 `results/verification/`. La segunda calcula un caso paramétrico, sus primeros
 modos y una vibración estructural libre. Las figuras del FEM se exportan sin
 abrir una ventana interactiva.
@@ -58,7 +64,7 @@ run('matlab/run_fem_convergence.m')
 
 La inspección consume la triangulación incluida. El FEM consume la malla
 volumétrica preparada, no necesita el STEP original. El tercer script compara
-dos mallas y muestra que el caso todavía no converge. Puede requerir más tiempo
+dos mallas históricas y muestra que aquella discretización no converge. Puede requerir más tiempo
 y memoria que el ejemplo paramétrico. No hay una estimación universal de RAM:
 la factorización dispersa depende de la conectividad y los apoyos.
 

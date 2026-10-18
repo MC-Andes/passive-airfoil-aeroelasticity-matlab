@@ -184,6 +184,115 @@ Estas opciones no son parámetros del FEM lineal `fem3d.solve_static`.
 
 ## Entrada de verificación
 
-`report=run_verification()` ejecuta ambas suites y escribe CSV/JSON bajo
+`report=run_verification()` ejecuta las cuatro suites y escribe CSV/JSON bajo
 `results/verification/`. Un test fallido interrumpe la ejecución con error.
 La interfaz no descarga dependencias ni necesita una sesión gráfica.
+
+## Placa y adaptador desacoplado de presión
+
+La formulación, convenciones y ejemplos se detallan en
+[borde de salida](trailing-edge.md) y [casos publicados](case-catalog.md).
+Estas funciones usan MATLAB base y apoyos homogéneos.
+
+| Función | Contrato |
+| --- | --- |
+| `plate.mesh(x,y,t)` | Vectores crecientes en metros; espesor escalar o callback de centroides; devuelve cuadriláteros antihorarios. |
+| `plate.shape(xi,eta)` | N y derivadas paramétricas bilineales; nodos (-1,-1),(1,-1),(1,1),(-1,1). |
+| `plate.mitc4(X,t,E,nu,rho)` | K12×12, M12×12, cargas por Pa12×1 y área; X4×2. DOFs intercalados w,theta_x,theta_y. |
+| `plate.assemble(mesh,material)` | K, M dispersas, P por presión elemental, masa y áreas. Material E,nu,rho. |
+| `plate.pressure_map(mesh,xEdges,yEdges)` | B3N×Nparches para presiones rectangulares; x más rápido. Fuerza y primeros momentos conservados para ese campo. |
+| `plate.probe(mesh,points,component)` | O para puntos Nsensores×2; componente 1=w, 2=theta_x, 3=theta_y. |
+| `ael.static(K,fixed,F,O)` | Equilibrio completo; F puede tener varias columnas. Devuelve U,Y,reacciones y residual relativo. |
+| `ael.reduce(K,M,fixed,count,zeta,B,O)` | Modos normalizados en masa, matrices modales M/C/K/B/O, Phi, frecuencias y residuos. Sin suponer orden físico de DOFs. |
+| `ael.harmonic(model,fHz,input)` | Amplitudes pico complejas; input Ncanales×1 o ×Nfrecuencias. Exp(i*omega*t). |
+| `ael.transient(model,time,inputFcn,q0,v0)` | Newmark beta=1/4,gamma=1/2; estados iniciales modales opcionales cero. Q/V/A,Y,energía,residuo. |
+| `ael.pressure_history(time,pressure)` | Callback desde presiones Ncanales×Ntiempos Pa; interpolación lineal, sin extrapolación. |
+| `ael.response_metrics(time,Y)` | Señales Nsensores×Ntiempos uniformes: media, RMS fluctuante, pico a pico, espectro Hann y bin dominante. |
+| `ael.compare_series(t,Y,tRef,Yref,scale)` | Interpola simulación a observaciones cubiertas; bias,RMSE,RMSE/scale,error máximo. Sin ajuste de fase. |
+| `ael.reference_cases()` | Nueve structs con geometría/material nominal, datos experimentales y procedencia. |
+| `ael.build_plate_case(c,nChord)` | Sistema placa y DOFs de apoyo para el contrato de caso publicado; incorpora interfaz de espesores. |
+
+`ael` no sustituye las funciones cuasiestacionarias de `pae`; integra una
+estructura lineal bajo entradas prescritas. B/O de sólidos deben construirse
+con su orden intercalado de traslaciones; los de placa contienen pendientes.
+
+## Sólido cuadrático y campaña CAD
+
+La ruta completa y sus criterios se describen en [campaña CAD](cad-original.md).
+
+| Función | Contrato |
+| --- | --- |
+| `fem3d.elevate(mesh)` | Eleva Tet4 a Tet10 conforme, con aristas rectas; no proyecta al CAD. Conserva etiquetas de caras. |
+| `fem3d.tet10(X,D,rho,order)` | K30×30, M30×30, B de centroide, volumen e informe de jacobianos. Orden Duffy por eje por defecto 4; geometría afín sin argumento de orden usa integrales exactas. |
+| `fem3d.tet10_shape(r)` | Funciones cuadráticas y derivadas; aristas 12,23,31,14,24,34. |
+| `fem3d.tri_shape(r,count)` | Tri3/Tri6; aristas de cara 12,23,31. |
+| `fem3d.surface_quadrature(mesh,faces,order)` | H, puntos, normales y pesos de área en caras explícitas Tri3/Tri6, incluida geometría curva. |
+| `fem3d.traction(mesh,faces,load)` | Presión positiva hacia dentro o tracción cartesiana. También acepta callback `@(points,normals)` que devuelve Nq×1 o Nq×3. |
+| `fem3d.plot_faces(faces)` | Triángulos de visualización y mapa a caras físicas; Tri6 se divide en cuatro. |
+| `cad.load_case(root,path)` | Contrato versionado; valida auditoría de fuente y escenario A; calcula Re y b/c. |
+| `cad.transform(axisOrder,origin)` | Matriz R de vectores polares y det(R)R de momentos axiales; origen expresado en ejes permutados. |
+| `cad.face_labels(mesh)` | Une caras FEM a etiquetas CAD por conectividad, rechazando pérdidas o duplicados. |
+| `cad.pressure_patch(mesh,config)` | Recorte físico de piel exterior Tri3/Tri6; integración, H y fuerza por Pa, exposición y balances; delega geometría curva en `cad.curved_patch`. |
+| `cad.sensors(mesh,config)` | H y O de nueve puntos materiales cerca del TE, sin ajuste a nodo cercano; inversión paramétrica Newton sobre Tri6 curvos. |
+| `cad.atlas(mesh,config,output)` | Firmas por cara CAD, localización de elementos esbeltos e intervalos verticales de material. |
+| `cad.resource_estimate(mesh)` | Aristas reales, DOFs Tet10 y cota de tripletas sin ensamblar el sistema. |
+| `cad.modal_compare(a,b,eta)` | MAC ponderado y asignación de modos observados; marca cercanía modal que exige subespacios. |
+| `run_cad_original(casePath,runTet10)` | Campaña sin sobrescrituras: tres niveles del elemento configurado, piloto opcional, curva de presión, modos, FRF condicional y aceptación. |
+
+`assemble`, `boundary`, `read_mesh`, `check_supports`, `stress` y `plot_result`
+aceptan ahora Tet4/Tet10 y Tri3/Tri6. El CSV de tetraedros contiene 4 o 10
+nodos y una etiqueta de volumen; el de caras, 3 o 6 nodos y una etiqueta CAD.
+La recuperación de tensiones de Tet10 es de centroide. `solve_static` usa
+Cholesky disperso equilibrado y refinamiento con el operador original; guarda
+su historia de residuos. `modal` equilibra K/M mediante la misma congruencia
+y calcula residuos en las coordenadas originales.
+
+`run_cad_modal_response(solutionFolder)` calcula un decaimiento modal libre
+a partir de un `solution.mat` CAD, compara dos pasos temporales con la
+solución analítica amortiguada y guarda señales, RMS/espectro, energía y
+alcance. El amortiguamiento es supuesto y la perturbación inicial impuesta;
+no simula una excitación del flujo ni valida la reducción espacial.
+
+
+## Mecánica, FSI y estela
+
+| Interfaz | Contrato |
+| --- | --- |
+| `fem3d.solve_constrained`, `solve_contact`, `solve_friction` | Restricciones exactas, conjunto activo unilateral y fricción incremental con disipación. |
+| `fem3d.nonlinear_element`, `solve_nonlinear` | Sólido total Lagrangiano Saint Venant–Kirchhoff, tangente consistente y continuación. |
+| `fem3d.modal_constrained`, `newmark_observed` | Modos guiados sin penalización y observación de transitorio completo sin guardar todos los estados. |
+| `cad.build_reduced`, `remap_reduced` | Base del FEM CAD con flexibilidad residual; nueva malla fluida conserva K/M y observación. |
+| `fsi.static`, `dynamic`, `linear_dynamic` | Equilibrio con geometría actualizada, partición fuerte UVLM/Newmark y tangente con memoria completa. |
+| `uvlm.initialize`, `step`, `linear_model` | Anillos/Kutta, estela congelada o libre, cargas estacionarias/no estacionarias y tangente. |
+| `uvlm.wake_vertex_gradient` | Derivada analítica del vértice compartido por dos segmentos; contraste complejo independiente. |
+| `fsi.compact_dynamic`, `truncate` | Eliminación Schur exacta y subconjunto modal consistente de todos los operadores. |
+| `nsflow.project_penalized`, `external` | Proyección variable presión/Brinkman y flujo exterior conservativo 2D/3D. |
+| `nsflow.surface_traction` | Presión y esfuerzo viscoso 2D fuera de la máscara, con referencia Cp aguas arriba explícita. |
+| `run_cad_aeroelastic` | Campaña estática/dinámica con dt, paneles, núcleo, longitud de estela y alcance declarados. |
+| `run_cad_viscous`, `run_cad_viscous_postprocess` | Campañas Re/malla/dominio/reinicio y perfiles físicos comunes de estela. |
+| `build_native_kernels` | Compilación opcional de kernels C propios equivalentes; todo el solver admite alternativa MATLAB. |
+
+Las [guías acoplada](cad-coupled.md) y [viscosa](viscous-flow.md) describen
+unidades, hipótesis, conservación y reproducción. Los runners de sensibilidad
+no son calibraciones del espécimen ni modelos de turbulencia.
+
+
+## Estudio actualizado PETG y servo
+
+| Función | Contrato |
+| --- | --- |
+| `morphing.load_case(root,[path])` | Schema 2, STEP actualizado y datos de estudio coherentes; no reutiliza el loader histórico. |
+| `morphing.boundary_conditions(mesh,c,command_m)` | Apoyo sobre cuatro caras de alojamiento hasta inserción declarada; desplazamiento uniforme de interfaz del slider. Rechaza SHA/firmas incompatibles. |
+| `morphing.observers(mesh,c)` | Puntos materiales en envergadura positiva; offset TE referido a extensión real del CAD, no a una cuerda nominal inexistente. |
+| `morphing.aerodynamic_coefficients(points,forces,c,U,alpha_deg)` | Puntos [m] y fuerzas sobre cuerpo [N], canónicas; CL/CD de viento y Cm sobre el eje, S=.09 m², c=.25 m. |
+| `run_morphing_study([casePath])` | Genera 231 filas de planificación; no calcula CFD ni inventa recorrido final. |
+| `run_morphing_mechanics([casePath],[order])` | Prueba tangente completa, modos bloqueados y tensiones. Tet10 por defecto; Tet4 es comparación diagnóstica. |
+| `run_morphing_nonlinear([command_m],[casePath])` | SVK Tet4 con continuación y Cauchy/Green; amplitud pequeña por defecto, sin calificar resistencia. |
+| `run_morphing_review(manifestPath)` | Comparación de campañas explícitas, hashes y figuras; no hereda cierre del CAD anterior. |
+
+`fem3d.nonlinear_tet4_batch` calcula la misma fuerza, tangente y energía del
+elemento total Lagrangiano existente, con páginas y memoria acotadas. El flag
+`mesh.nonlinearBatch=true` lo activa para Tet4. Su contraste independiente y
+la solución analítica de una barra con desplazamiento finito impuesto forman
+parte de los seis controles morphing. El solver normaliza también con las
+reacciones de los DOFs impuestos cuando la fuerza exterior es cero.

@@ -2,16 +2,27 @@
 
 [![Verify](https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab/actions/workflows/verify.yml/badge.svg)](https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab/actions/workflows/verify.yml)
 
-Solver de desarrollo para perfiles 3D **fijos en una corriente de aire** que se
-deforman pasivamente. Implementa un FEM sólido propio en MATLAB, un VLM de
-herraduras y transferencia conservativa de cargas. La ruta principal es
-**desacoplada de una vía**: aerodinámica sobre la forma inicial → cargas → FEM.
+Solver propio MATLAB para estudiar la forma y las cargas de una **semiala
+morphing accionada por slider**, fija en el túnel con el servo en cada posición.
+El estudio principal usa el CAD actualizado, PETG y las condiciones de Bogotá.
+Se mantienen vibraciones, estabilidad/flutter y resistencia mecánica como
+análisis complementarios, con sus hipótesis y límites físicos explícitos.
 
-**Estado:** prototipo de investigación, con verificación numérica y sin
-validación experimental de la pieza de referencia. Su respuesta estructural
-todavía no converge entre las dos mallas suministradas: el desplazamiento
-máximo cambia aproximadamente **66,1%**. Los resultados de ese caso no son
-predicciones cuantitativas validadas del álabe ni de su slider.
+La [definición actual del estudio](docs/morphing-wing.md) distingue datos del
+diseño, fichas de fabricante y valores aún no medidos. El apoyo está en el
+alojamiento cuadrado del eje; el slider se acciona mediante desplazamiento
+impuesto. Las campañas anteriores de PLA, apoyo anterior y otro STEP siguen
+como referencias históricas; no son predicciones de la configuración nueva.
+
+El núcleo incluye FEM sólido Tet4/Tet10, transferencia conservativa, VLM/UVLM,
+acoplamiento estático y dinámico, y Navier–Stokes laminar MAC 2D/3D propios.
+Gmsh/OpenCASCADE preparan geometría y mallas. El CFD 3D con transición a
+Reynolds de túnel requiere desarrollo/verificación adicional: los casos
+planificados no se presentan como simulaciones ejecutadas.
+
+El [portal MC-Andes](https://mc-andes.github.io/projects/) reúne los proyectos.
+La [guía de publicación](docs/portal-publication.md) documenta la ficha anterior,
+fijada a su propio commit; debe revisarse antes de publicar el nuevo estudio.
 
 ## Inicio rápido
 
@@ -27,8 +38,10 @@ En MATLAB, desde la raíz del proyecto:
 
 ```matlab
 addpath('matlab')
-report = run_verification();       % 11 controles VLM/reducido + 12 FEM sólido
+report = run_verification();       % ocho suites: 75 controles de física y contratos del estudio
 run('matlab/run_fem_demo.m')        % ejemplo paramétrico, modos y vibración libre
+comparison = run_tail_benchmarks(); % nueve geometrías PLA publicadas
+result = run_tail_response();       % deformación TE y presión oscilante impuesta
 ```
 
 Desde una terminal donde `matlab` esté en `PATH`:
@@ -40,6 +53,12 @@ matlab -batch "addpath('matlab'); run_verification(); run('matlab/run_fem_demo.m
 Se generan CSV, figuras y archivos MAT en `results/`, excluido de Git. Los
 scripts resuelven las rutas desde el proyecto y no necesitan archivos personales.
 
+La ruta nueva de [borde de salida](docs/trailing-edge.md) incluye comparación
+con [casos publicados](docs/case-catalog.md). Mantiene el modelo desacoplado:
+la oscilación de presión del ejemplo es impuesta. La [ruta CAD acoplada](docs/cad-coupled.md) calcula realimentación y estela
+circulatoria; la [rama viscosa](docs/viscous-flow.md) calcula presión, déficit
+y vorticidad bajo sus propios supuestos y Reynolds.
+
 ## Ejemplos disponibles
 
 | Entrada | Qué ejecuta |
@@ -50,7 +69,13 @@ scripts resuelven las rutas desde el proyecto y no necesitan archivos personales
 | `matlab/inspect_reference.m` | Inspección de triangulación y envolventes aerodinámicas. |
 | `matlab/run_demo.m` | Modelo reducido ilustrativo con barrido y transitorio cuasiestacionario. |
 | `matlab/run_reference.m` | Superficie derivada del CAD con estructura reducida ilustrativa. |
-| `matlab/run_verification.m` | Ambas suites, reportes y resumen de verificación. |
+| `matlab/run_verification.m` | Siete suites, reportes y resumen de verificación. |
+| `matlab/run_cad_original.m` | Campaña estructural del CAD con cargas/sensores físicos y criterios explícitos. |
+| `matlab/run_cad_aeroelastic.m` | Equilibrios de una/dos vías y perturbación libre con UVLM del CAD. |
+| `matlab/run_cad_mechanisms.m` | Hipótesis A/B/C de guía sobre el sólido conectado. |
+| `matlab/run_cad_viscous.m` | Estela laminar 2D/3D y pared móvil prescrita en el exterior CAD. |
+| `matlab/run_tail_benchmarks.m` | Nueve geometrías PLA publicadas: frecuencias adimensionales, errores y refinación. |
+| `matlab/run_tail_response.m` | Placa equivalente: cola estática, presión temporal impuesta y respuesta en frecuencia. |
 
 Para ejecutar el caso de referencia:
 
@@ -65,7 +90,10 @@ Los scripts sobrescriben las salidas homónimas al repetirse.
 
 ## Qué está implementado
 
-- Elementos sólidos Tet4 con rigidez y masa consistente calculadas desde cero.
+- Placa MITC4 propia para flexión delgada, masa consistente y presión distribuida.
+- Reducción modal desde matrices FEM de placas o sólidos; presión temporal y observables comunes.
+- Comparación reproducible de nueve geometrías PLA con datos medidos atribuidos (27 observaciones).
+- Elementos sólidos Tet4/Tet10 con rigidez y masa consistente calculadas desde cero.
 - Ensamblaje disperso, materiales isotrópicos u ortótropos y regiones materiales.
 - Eliminación de desplazamientos prescritos, reacciones, tensiones y energía.
 - Modos estructurales normalizados en masa y Newmark de aceleración media.
@@ -80,17 +108,18 @@ herramientas opcionales para generar entradas geométricas.
 
 ## Hipótesis y límites
 
-El FEM sólido es lineal de pequeña deformación y rotación. Tet4 puede resultar
-demasiado rígido en flexión de pieles delgadas y en materiales casi
-incompresibles. No incluye contacto, holgura, fricción, hiperelasticidad ni la
-cinemática real del slider. El ejemplo del CAD considera un sólido unido y
-empotra el 30% anterior de cuerda en toda la envergadura; son hipótesis de desarrollo.
+La ruta principal usa elasticidad pequeña con Tet10; existe una formulación
+no lineal total Lagrangiana verificada para comparar cuando la deformación lo
+requiera. Las guías, contactos afines y Coulomb son hipótesis de pequeñas
+excursiones. El STEP sigue siendo un sólido conectado; no se inventan bisagras.
+No se identifica automáticamente el montaje ni el mecanismo fabricado.
 
-El VLM es inviscido, de superficie delgada y con estela recta cuasiestacionaria.
-No resuelve transición, separación, resistencia viscosa, memoria de estela ni
-masa añadida. `pressureJump` no es Cp real de las dos caras y `CDi` no es
-resistencia total. **No hay una predicción de flutter validada**. Los modos
-del FEM y los autovalores del modelo reducido tienen alcances distintos.
+VLM/UVLM representan flujo adherido inviscido. UVLM incorpora memoria de
+circulación y fuerzas no estacionarias; `pressureJump` sigue siendo una carga
+equivalente delgada, no Cp de ambas pieles. La rama Navier–Stokes resuelve casos
+laminares declarados y necesita su propio estudio de resolución/penalización.
+No incorpora modelos calibrados de transición o turbulencia. **No hay una
+velocidad de flutter validada experimentalmente** ni datos PIV del espécimen.
 
 La ley de referencia adopta Tough PLA con E=2,617 GPa y rho=1160 kg/m³ o ABS
 con E=1,813 GPa y rho=1084 kg/m³, a partir de
@@ -114,6 +143,8 @@ Comenzar por el [índice de documentación](docs/index.md).
 | Modelo reducido y sus extensiones | [Modelo reducido](docs/reduced-model.md) |
 | Información necesaria del laboratorio | [Datos experimentales](docs/experimental-data.md) |
 | Bibliografía y materiales | [Referencias](docs/references.md) |
+| Acoplamiento sobre el CAD | [Mecánica y UVLM/FSI](docs/cad-coupled.md) |
+| Déficit, presión y vorticidad viscosos | [Navier–Stokes](docs/viscous-flow.md) |
 | Mejoras pendientes | [Hoja de ruta](docs/roadmap.md) |
 
 ## Contenido publicado
@@ -139,9 +170,25 @@ python3 tools/check_repository.py
 Ver [CONTRIBUTING](CONTRIBUTING.md), [CHANGELOG](CHANGELOG.md) y
 [CITATION.cff](CITATION.cff). El código y la documentación se publican con
 [licencia MIT](LICENSE), siguiendo la licencia por defecto de MC-Andes. Las
-dependencias externas conservan sus licencias y no se redistribuyen aquí.
+dependencias externas conservan sus licencias. El extracto experimental
+Huang–Zhang se distribuye bajo CC BY 4.0, con atribución y transformaciones en
+[avisos de terceros](THIRD_PARTY_NOTICES.md).
 
 La importación inicial establece `main` como excepción de arranque a la regla
 de integración por PR de [MC-Andes](https://github.com/MC-Andes/standards).
 Los cambios posteriores se revisan mediante PR; no se declara una aprobación
 independiente ni una validación física para esta importación inicial.
+
+## Capacidades conservadas y campaña del CAD anterior
+
+El [plan CAD](docs/plan-cad-original.md) tiene una
+[campaña estructural ejecutable](docs/cad-original.md) y
+[contratos de caso](cases/cad_original/case.json). Incorpora cargas de presión
+sobre un parche físico, nueve sensores materiales cerca del borde de salida,
+atlas geométrico, Tet10/Tri6, escenarios A/B/C, UVLM/FSI y flujo viscoso
+laminar propio. `run_verification()` reúne 75 controles en ocho suites; las campañas históricas registran los 69 que existían entonces.
+El [informe](docs/cad-original-results.md) cuantifica convergencia y límites.
+Los resultados anteriores siguen ligados a su material, apoyos y guía. El
+[caso actualizado](docs/morphing-wing.md) conserva el núcleo MATLAB propio,
+con CFD estacionario como objetivo principal y dinámica/resistencia como
+complementos.

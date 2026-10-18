@@ -1,0 +1,26 @@
+function config = load_case(root,path)
+%LOAD_CASE Versioned physical scenario; no private STEP required for cached CSVs.
+if nargin<2, path=fullfile(root,'cases','cad_original','case.json'); end
+config=jsondecode(fileread(path));
+required={'geometry','regions','material','supports','slider','flow','loads','sensors','discretization','provenance'};
+assert(all(isfield(config,required)) && config.schemaVersion==1,'cad:Case','Invalid case contract.');
+assert(numel(config.loads.x_over_c)==2 && numel(config.loads.eta)==2, ...
+    'cad:Case','Patch bounds must each contain exactly two coordinates.');
+assert(config.discretization.modalCount>=1 && config.discretization.modalCount<=8 && ...
+    config.discretization.modalCount==fix(config.discretization.modalCount), ...
+    'cad:Case','Modal assignment supports one to eight observed modes.');
+assert(config.supports.x_over_c>0 && config.supports.x_over_c<1 && ...
+    config.geometry.chord_m>0 && config.geometry.span_m>0 && ...
+    all(config.sensors.eta>=0 & config.sensors.eta<=1) && all(diff(config.sensors.eta)>0) && ...
+    config.sensors.x_over_c>0 && config.sensors.x_over_c<1, ...
+    'cad:Case','Invalid support, geometry or sensor coordinates.');
+assert(strcmp(config.slider.scenario,'A'),'cad:Mechanism','Only documented monolithic scenario A is available.');
+assert(strcmp(config.loads.type,'analytic_patch_pressure'),'cad:Loads','Campaign requires a prescribed physical patch.');
+assert(all(diff(config.loads.x_over_c)>0) && all(config.loads.x_over_c>=0 & config.loads.x_over_c<=1) && ...
+    all(diff(config.loads.eta)>0) && all(config.loads.eta>=0 & config.loads.eta<=1),'cad:Case','Invalid physical patch.');
+audit=jsondecode(fileread(fullfile(root,'data','reference','cad_volume_audit.json')));
+assert(strcmp(audit.source_sha256,config.geometry.sourceSha256) && audit.brep_valid,'cad:Hash','Source CAD audit mismatch.');
+config.flow.Re=config.flow.rho_kg_m3*config.flow.speed_m_s*config.geometry.chord_m/config.flow.mu_Pa_s;
+config.geometry.aspectRatio=config.geometry.span_m/config.geometry.chord_m;
+config.caseSha256=cad.sha256(path);
+end

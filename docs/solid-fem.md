@@ -1,4 +1,4 @@
-# Solver propio de aeroelasticidad pasiva: primera versión desacoplada
+# Solver FEM propio y referencia histórica desacoplada
 
 Esta versión calcula la estructura a partir de **nodos, elementos y propiedades
 del material**. `+fem3d` implementa el elemento sólido, el ensamblaje, los apoyos,
@@ -13,10 +13,12 @@ generar conectividades**; el mallado paramétrico de los ejemplos también tiene
 una implementación propia en MATLAB. Los CSV permiten ejecutar una malla
 preparada sin tener Gmsh o Python instalados.
 
-**Estado del caso STEP:** ejecutado con dos mallas, pero todavía sin convergencia
-estructural. La diferencia de desplazamiento es grande; los valores de ese caso
-son diagnósticos de desarrollo, no una predicción del álabe. La verificación
-del código y la precisión de una discretización concreta son cuestiones distintas.
+**Estado del caso STEP:** las dos mallas Tet4 descritas en esta guía son la
+referencia histórica que no convergió. La [campaña actual del CAD](cad-original-results.md)
+usa tres niveles Tet10 y cumple los criterios declarados de cola, energía y
+banda fundamental. Incluye guías, reducción, acoplamiento estático/dinámico y
+extensión viscosa. Las propiedades y el montaje siguen siendo hipótesis.
+La verificación del código y la precisión de una discretización son cuestiones distintas.
 
 ## Ejecutar y examinar el código
 
@@ -235,9 +237,9 @@ los de impresión aportan propiedades y sus límites de transferencia.
 Además, [el conjunto de datos de Huang y Zhang, versión 2, junio de
 2026](https://data.mendeley.com/datasets/8jxw5533py/2) publica ensayos de PLA
 impreso en siete orientaciones, datos modales, tolerancias, CAD y archivos FEM.
-Es un candidato concreto para la próxima validación experimental del solver,
-especialmente al añadir láminas. Esta entrega enlaza el conjunto de datos; sus
-ensayos todavía no se incorporaron ni se ajustaron a la geometría del usuario.
+La ruta nueva incorpora un extracto de nueve geometrías de placa y compara
+frecuencias con una formulación MITC4 propia. Ver [casos publicados](case-catalog.md).
+Esta comparación no resuelve la convergencia del sólido STEP ni identifica su slider.
 
 La conclusión de implementación es que MATLAB resulta adecuado para construir
 y verificar el solver propio. La dificultad principal es elegir una cinemática
@@ -310,3 +312,14 @@ el máximo puntual de tensión junto a un empotramiento.
 
 La primera etapa implementada permite separar y verificar la estructura, la
 aerodinámica y la transferencia antes de introducir estas extensiones.
+
+## Extensión al CAD original y Tet10
+
+La [campaña CAD](cad-original.md) añade Tet10, caras Tri6, integración física
+de presión y sensores materiales de la cola. Los ejemplos anteriores mantienen
+su configuración; la campaña nueva guarda resultados en otra carpeta.
+La verificación incorpora flexión y modos analíticos de viga, masa,
+orientación, geometría curva y conservación de transferencia. La elevación
+de aristas no mejora por sí sola los elementos esbeltos ni demuestra
+convergencia del álabe. Consultar el estado de ejecución del
+[plan CAD](plan-cad-original.md) antes de usar sus valores como predicción.

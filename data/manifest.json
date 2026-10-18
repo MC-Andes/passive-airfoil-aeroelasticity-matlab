@@ -196,6 +196,46 @@
       ],
       "columns": 5,
       "rows": 161
+    },
+    {
+      "path": "data/benchmarks/huang2026_modal.csv",
+      "sha256": "2656a7486518cdc62ef5c5774b95599d3b3f2e0e50606c52a9b465d272b8f08e",
+      "bytes": 3855,
+      "header": [
+        "case_id",
+        "aspect_ratio",
+        "flexible_chord_fraction",
+        "frequency_rank",
+        "source_mode_label",
+        "omega_nd_mean",
+        "omega_nd_sample_sd",
+        "replicate_1_Hz",
+        "replicate_2_Hz",
+        "replicate_3_Hz",
+        "source_cells",
+        "source_specimen_label",
+        "all_three_Omega_mean",
+        "published_mean_uses_all_three"
+      ],
+      "columns": 14,
+      "rows": 27
+    },
+    {
+      "path": "data/benchmarks/huang2026_provenance.json",
+      "sha256": "fdd89110ae388e92964f5094ca25ca1a336376a471a9af9c1a9116faef2f70dc",
+      "bytes": 2271
+    },
+    {
+      "path": "data/benchmarks/cad_literature.json",
+      "sha256": "e997b98e759cb9d7c3904b481fd83b3eeb9f4b224f77d924c3e2a284eb204489",
+      "bytes": 9981
+    },
+    {
+      "path": "data/reference/morphing_wing_geometry.json",
+      "sha256": "4e2caab7fd52dbf57d90e3be11b5a88bf61351065be96d994c9b6096d35ab9df",
+      "bytes": 5836
     }
-  ]
+  ],
+  "updated_morphing_step_sha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da",
+  "source_step_interpretation": "source_step_sha256 identifies historical cached MATLAB example meshes; updated_morphing_step_sha256 is a distinct geometry, not interchangeable"
 }

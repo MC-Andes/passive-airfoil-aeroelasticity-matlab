@@ -32,6 +32,14 @@ forces = zeros(np,3); gamma = zeros(np,1); residual = 0; condition = 1;
 if flow.speed>0
     influence = zeros(np,np);
     velocityAtForce = zeros(np,3,np);
+    if exist('aero_vortex_kernel','file')==3
+      for first=1:64:np
+        ix=first:min(first+63,np);farA=p.A(ix,:)+wakeLength*direction;farB=p.B(ix,:)+wakeLength*direction;
+        vc=aero_vortex_kernel(0,p.control,farA,p.A(ix,:),core)+aero_vortex_kernel(0,p.control,p.A(ix,:),p.B(ix,:),core)+aero_vortex_kernel(0,p.control,p.B(ix,:),farB,core);
+        influence(:,ix)=reshape(sum(vc.*p.normal,2),np,numel(ix));
+        velocityAtForce(:,:,ix)=aero_vortex_kernel(0,p.forcePoint,farA,p.A(ix,:),core)+aero_vortex_kernel(0,p.forcePoint,p.A(ix,:),p.B(ix,:),core)+aero_vortex_kernel(0,p.forcePoint,p.B(ix,:),farB,core);
+      end
+    else
     for j=1:np
         farA = p.A(j,:)+wakeLength*direction;
         farB = p.B(j,:)+wakeLength*direction;
@@ -43,6 +51,7 @@ if flow.speed>0
            + pae.segment_velocity(p.forcePoint,p.A(j,:),p.B(j,:),core) ...
            + pae.segment_velocity(p.forcePoint,p.B(j,:),farB,core);
         velocityAtForce(:,:,j) = vf;
+    end
     end
     condition = rcond(influence);
     assert(condition>1e-12,'pae:VLM','Ill-conditioned aerodynamic lattice; inspect geometry/mesh.');

@@ -1,5 +1,12 @@
 # Arquitectura y convenciones
 
+El [estudio vigente del ala morphing](morphing-wing.md) usa el paquete
+`morphing` para datos y geometría, eje adherido, comando del servo y referencias
+de fuerza/momento. Sus runners no invocan el contrato antiguo de PLA ni
+heredan su aceptación. La arquitectura siguiente describe los componentes
+comunes y ejemplos conservados.
+
+
 ## Componentes
 
 ```mermaid
@@ -14,7 +21,7 @@ flowchart LR
     S --> D[Modos y transitorio estructural]
 ```
 
-La ruta principal es `fem3d.one_way`. Calcula la aerodinámica una vez sobre la
+La ruta básica de una vía es `fem3d.one_way`. Calcula la aerodinámica una vez sobre la
 geometría inicial, transfiere fuerzas y resuelve un sólido lineal. No existe
 una flecha de actualización geométrica desde el sólido hacia el VLM en esa
 función.
@@ -30,6 +37,7 @@ usan rigideces y masas ilustrativas, no calculadas del CAD. Consultar el
 | Ruta | Función |
 | --- | --- |
 | `matlab/+fem3d/` | Elemento sólido, mallas, ensamblaje, restricciones, equilibrio y dinámica. |
+| `matlab/+morphing/` | Contrato actualizado, apoyo físico, comando, observadores y coeficientes sobre el eje. |
 | `matlab/+pae/` | Superficie, VLM, mapas de fuerzas y solver reducido. |
 | `matlab/run_*.m` | Entradas reproducibles de los ejemplos. |
 | `matlab/tests/` | Referencias analíticas, conservación e integridad geométrica. |
@@ -86,7 +94,9 @@ Xdeformed = reshape(X(:)+structure.Phi*q,size(X));
 No conectar `modes.Phi` del FEM directamente a `pae.make_model`: difieren el
 orden de componentes, los nodos y el significado de sus coordenadas. Haría
 falta interpolar, reordenar y proyectar las matrices de manera consistente.
-Esa reducción automática no está implementada.
+El adaptador nuevo `ael.reduce` sí proyecta K/M y operadores explícitos B/O
+de un sólido o una placa a coordenadas modales. No construye automáticamente
+una superficie deformable `pae` ni su transferencia FSI. Ver [borde de salida](trailing-edge.md).
 
 ## Tensores y fuerzas
 
@@ -111,3 +121,19 @@ Los identificadores CAD no se convierten automáticamente en materiales o
 contactos. El generador NACA produce un sólido macizo truncado, no el mecanismo
 del STEP. El resultado de un solver lineal tampoco adquiere grandes rotaciones
 por asignarle un módulo de Young bajo.
+
+
+## Extensión sobre el sólido CAD
+
+`cad` mantiene regiones/sensores y transforma las pieles reales en una
+superficie de carga material. `fem3d` aporta Tet10 y restricciones/no linealidad;
+`fsi` usa la base derivada de ese sólido y el adjunto de la cinemática. `uvlm`
+añade memoria aerodinámica explícita y partición fuerte. `nsflow` calcula por
+separado flujo viscoso laminar sobre la envolvente auditada, con cavidades
+selladas declaradas para esa variante fluida. Los contratos conservan el STEP
+principal intacto. Los kernels C opcionales aceleran exactamente Biot–Savart;
+la implementación MATLAB es la alternativa de referencia.
+
+Los modelos históricos reducidos cuasiestacionarios conservan su interfaz y
+sus límites; la presencia de UVLM en otro paquete no los convierte en modelos
+con memoria. La [ruta CAD](cad-coupled.md) documenta las interfaces nuevas.

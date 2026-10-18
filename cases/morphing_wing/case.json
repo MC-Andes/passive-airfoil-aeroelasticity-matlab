@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "name": "updated_PETG_servo_morphing_half_wing",
+  "geometry": {
+    "sourceName": "Airfoil with slider alone (1).stp",
+    "sourceSha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da",
+    "audit": "data/reference/morphing_wing_geometry.json",
+    "axisOrder": [
+      1,
+      3,
+      2
+    ],
+    "origin_m": [
+      -0.058245437549739085,
+      0,
+      0.058966321969807195
+    ],
+    "chord_m": 0.25,
+    "cadChord_m": 0.24699616594194795,
+    "span_m": 0.36,
+    "referenceArea_m2": 0.09,
+    "status": "nominal .25 m coefficient reference retained; audited CAD extent about .247 m, no rescaling"
+  },
+  "material": {
+    "name": "PETG",
+    "E_Pa": 1600000000.0,
+    "rho_kg_m3": 1270,
+    "nu": 0.35,
+    "status": "isotropic elastic proxy; E/rho manufacturer values, nu .35 explicit unmeasured modelling assumption",
+    "E_sensitivity_Pa": [
+      1400000000.0,
+      1500000000.0,
+      1600000000.0,
+      1700000000.0,
+      3000000000.0
+    ],
+    "nu_sensitivity": [
+      0.3,
+      0.35,
+      0.4
+    ],
+    "dampingRatio": null,
+    "catalogueYield_Pa": [
+      47000000.0,
+      50000000.0
+    ],
+    "rho_sensitivity_kg_m3": [
+      1270,
+      1290
+    ]
+  },
+  "supports": {
+    "type": "bonded_square_socket",
+    "cadFaces": [
+      71,
+      72,
+      73,
+      74
+    ],
+    "insertion_m": 0.324,
+    "insertionStatus": "recommended 0.9b assumed until confirmed",
+    "rootSkin": "free",
+    "tip": "free",
+    "shaftRigid": true
+  },
+  "slider": {
+    "cadFaces": [
+      7,
+      8,
+      9
+    ],
+    "direction": [
+      1,
+      0,
+      0
+    ],
+    "interfaceModel": "uniform driven front face; uy=uz=0, ux=command; no whole-root or anterior clamp",
+    "preload_N": 0,
+    "final_m": null,
+    "referenceFinal_m": [
+      -0.0125,
+      -0.025
+    ],
+    "positions": 11
+  },
+  "flow": {
+    "rho_kg_m3": 0.88,
+    "mu_Pa_s": 1.79e-05,
+    "speeds_m_s": [
+      15,
+      25,
+      35
+    ],
+    "alpha_deg": [
+      -4,
+      -2,
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "turbulenceIntensity": 0.006,
+    "turbulenceStatus": "design ceiling used as provisional CFD input, unmeasured"
+  },
+  "tunnel": {
+    "testSection_m": [
+      1,
+      1,
+      2
+    ],
+    "floor": "no-slip",
+    "rootGap_m": null,
+    "modelPosition": null,
+    "surfaceClosure": "closed outer envelope provisional; slot explicitly pending"
+  },
+  "sensors": {
+    "eta": [
+      0.05,
+      0.1625,
+      0.275,
+      0.3875,
+      0.5,
+      0.6125,
+      0.725,
+      0.8375,
+      0.95
+    ],
+    "x_fraction_of_actual_cad_extent": 0.995,
+    "direction": [
+      0,
+      0,
+      1
+    ]
+  },
+  "discretization": {
+    "mesh": "results/morphing_wing/meshes/pilot",
+    "elementOrder": 10,
+    "modalCount": 6,
+    "linearProbe_m": -1e-06,
+    "smallNonlinearProbe_m": -1e-05,
+    "maximumDofs": 1800000,
+    "pilotPurpose": "Tet4 nonlinear implementation check only; primary tangent/modes use Tet10; mesh convergence not yet established"
+  },
+  "analysis": {
+    "primary": "stationary 3D tunnel CFD + displacement-driven FEM",
+    "complementary": [
+      "vibration modes",
+      "conditional UVLM flutter/stability",
+      "mechanical stresses and strength assessment"
+    ],
+    "legacyCases": "cases/cad_original retain previous-source results, never reclassified as updated geometry",
+    "availableCurrentCFD": "laminar MAC and potential UVLM verified; no tunnel-Re transition closure implemented",
+    "tunnelCFDStatus": "not executed; requires verified 3D transition/turbulence and wall resolution",
+    "strengthStatus": "stress screening only until PETG directional law, allowable and geometry convergence available"
+  },
+  "studyData": "cases/morphing_wing/study-data.json"
+}

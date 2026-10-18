@@ -1,37 +1,33 @@
-# Trabajo pendiente
+# Desarrollo completado y validación posterior
 
-La publicación inicial establece un solver verificable de desarrollo. Las
-extensiones siguientes no se presentan como capacidades ya implementadas.
+La prioridad actual es el [ala morphing PETG con slider accionado](morphing-wing.md):
+CAD actualizado no prismático, apoyo en eje y CFD estacionario de la semiala.
+Vibraciones, flutter y resistencia se mantienen como complementos. Las campañas
+anteriores pertenecen a otro STEP. El CFD 3D con transición y su convergencia
+a Reynolds de túnel siguen siendo desarrollo pendiente, no una capacidad
+validada por los casos laminares existentes.
 
-## Prioridad estructural
 
-1. Resolver la convergencia del caso de referencia: investigar tetraedros
-   cuadráticos y láminas/vigas para flexuras y pieles, con benchmarks de flexión.
-2. Definir regiones físicas, espesores y orientación material de la pieza real.
-3. Incorporar guías, restricciones entre cuerpos, contacto y fricción del slider
-   cuando se conozca su arquitectura y modo de bloqueo.
-4. Implementar grandes desplazamientos/rotaciones con fuerzas internas y
-   tangente coherentes; añadir una ley material apropiada si se usan elastómeros.
+El [plan del CAD original](plan-cad-original.md) se ejecuta sobre el STEP
+original, con hipótesis geométricas y bibliográficas autorizadas por el usuario.
+El [informe de resultados](cad-original-results.md) registra las campañas,
+convergencias, errores y límites de cada modelo.
 
-## Cargas y acoplamiento
+Están implementados Tet10/Tri6 curvos, transferencia física conservativa,
+restricciones de guía, contacto/fricción, sólido total Lagrangiano, reducción
+del FEM real, acoplamiento estático, UVLM con memoria y acoplamiento dinámico
+fuerte. La extensión Navier–Stokes propia calcula estelas laminares 2D/3D con
+penalización y presión acopladas. Las placas publicadas siguen siendo
+comparaciones independientes del mecanismo del CAD.
 
-1. Controlar la huella de cargas distribuidas durante el refinamiento.
-2. Validar el VLM con datos de fuerza/presión en el régimen de Reynolds de ensayo.
-3. Acoplar en dos vías la estructura FEM con actualización de geometría y
-   criterios de convergencia de cargas y desplazamientos.
-4. Incorporar memoria aerodinámica mediante UVLM o un solver viscoso cuando
-   el objetivo dinámico lo requiera. No inferir flutter de la linealización
-   cuasiestacionaria actual.
+La continuación experimental requiere caracterizar impresión, masa,
+propiedades direccionales, amortiguamiento, montaje y funcionamiento del
+slider; medir desplazamiento/presión sincronizados y estela. Esos datos
+permitirían contrastar las predicciones condicionales y reducir su incertidumbre.
+No constituyen entradas medidas de las campañas presentes.
 
-## Reproducibilidad y validación
-
-- Medir propiedades efectivas de la impresión y amortiguamiento.
-- Registrar condiciones de montaje y sincronización experimental.
-- Añadir comparación con benchmarks experimentales publicados, conservando
-  licencias y procedencia de los datos.
-- Ampliar plataformas/versiones de MATLAB verificadas.
-- Empaquetar reducción modal desde el FEM con el reordenamiento e interpolación
-  correctos; hoy la ruta reducida requiere una entrada estructural independiente.
-
-Cada extensión debe aportar una comparación verificable y documentar su
-dominio de validez antes de emplearse para predicciones del álabe.
+Fuera del alcance verificado quedan leyes de elastómeros/viscoelasticidad sin
+identificar, transición/turbulencia a Reynolds de túnel, flutter experimental y
+PIV. Ampliar esos modelos requiere verificaciones y datos propios; el núcleo
+laminar no se presenta como URANS, LES o DNS del túnel. El presupuesto de
+recursos y las alternativas se describen en la [rama viscosa](viscous-flow.md).

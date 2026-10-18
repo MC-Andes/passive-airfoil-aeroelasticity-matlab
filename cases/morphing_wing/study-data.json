@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": {
+    "name": "Para\u0301metros para el estudio CFD del ala morphing.pdf",
+    "sha256": "896f4bd1880dfe7d1bb9d31aa020b8fe9db2b8edfc926ebcd48fd4bc55759f02",
+    "pages": 9,
+    "date": "2026-10-17",
+    "classification": "user-supplied study definition; primary design data, manufacturer values and recommendations distinguished; no experimental outcomes"
+  },
+  "primaryObjective": "stationary aerodynamic forces/moments of servo-morphed finite half-wing",
+  "complementaryObjectives": [
+    "vibration",
+    "conditional flutter/stability",
+    "mechanical stress and strength assessment"
+  ],
+  "userScopeAuthorization": "retain flutter, vibrations and mechanical strength as complementary analyses; update current geometries and relevant study parameters",
+  "geometry": {
+    "profile": "NACA 2412 nominal",
+    "chord_m": 0.25,
+    "span_m": 0.36,
+    "area_m2": 0.09,
+    "effectiveAspectRatio": 2.88,
+    "effectiveAspectRatioStatus": "ideal reflection in floor, not exact no-slip tunnel physics",
+    "updatedStepSha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da"
+  },
+  "mount": {
+    "socketSide_m": 0.0152,
+    "shaftSide_m": 0.015,
+    "centerX_m": 0.0625,
+    "centerZ_m": 0.0043,
+    "rootSkin": "free; no contact with floor/disc",
+    "tip": "free; no endplate",
+    "shaft": "ideal rigid, bonded on four inner socket faces",
+    "insertion_m": null,
+    "insertion_reference_m": 0.324,
+    "insertionStatus": "0.9b recommendation, not confirmed",
+    "rootGap_m": null,
+    "shaftMaterial": null,
+    "shaftWall_m": null
+  },
+  "slider": {
+    "type": "servo imposed chordwise displacement; fixed at each flow case",
+    "initial_m": 0,
+    "preload_N": 0,
+    "preloadStatus": "design states no intended preload; printing residual stress unknown",
+    "final_m": null,
+    "referenceFinal_m": [
+      -0.0125,
+      -0.025
+    ],
+    "positions": 11,
+    "flexibleStart_over_c": null,
+    "slotSealing": "tongue/groove and internal bulkhead proposed, not final; closed external CFD envelope is an explicit simplification"
+  },
+  "material": {
+    "name": "PETG",
+    "measuredSpecimenProperties": false,
+    "brand": null,
+    "density_kg_m3": 1270,
+    "densityClass": "Prusament manufacturer data, not specimen measurement",
+    "modulus_Pa": [
+      1500000000.0,
+      1600000000.0,
+      3000000000.0
+    ],
+    "modulusClass": [
+      "Prusament printed horizontal 1.5 +/- .1 GPa",
+      "Prusament printed vertical xz 1.6 +/- .1 GPa",
+      "3D4Makers 3 GPa, printed status unspecified"
+    ],
+    "Poisson": null,
+    "dampingRatio": null,
+    "catalogueYield_Pa": [
+      47000000.0,
+      50000000.0
+    ],
+    "yieldClass": "manufacturer printed specimens; not a validated FDM failure criterion",
+    "constitutiveCurve": null,
+    "print": {
+      "orientation": "span along printer Z, vertical",
+      "infill": 1,
+      "paths": "skin/rib following perimeters proposed",
+      "nozzle_m": 0.0004,
+      "layer_m": 0.0002,
+      "processParametersStatus": "nozzle/layer proposed; printer, temperatures and brand unconfirmed"
+    },
+    "otherBrandDensity_kg_m3": 1290
+  },
+  "flow": {
+    "speeds_m_s": [
+      15,
+      25,
+      35
+    ],
+    "alpha_deg": [
+      -4,
+      -2,
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "rho_kg_m3": 0.88,
+    "rhoClass": "project working value, not test-day measurement",
+    "mu_Pa_s": 1.79e-05,
+    "muClass": "assumed air near 15 C",
+    "absolutePressure_Pa": 73400,
+    "temperature_C": [
+      15,
+      17
+    ],
+    "turbulenceIntensity": 0.006,
+    "turbulenceClass": "design ceiling, current tunnel value unverified",
+    "tunnel": "TVIM-49-60-1x1",
+    "testSection_m": [
+      1,
+      1,
+      2
+    ],
+    "modelPosition": null,
+    "floorBoundary": "no-slip for tunnel CFD; symmetry plane only as separate idealized comparison",
+    "wallResolutionTarget_yPlus": 1,
+    "transitionModel": "required for proposed tunnel-Re CFD; existing laminar MAC and potential UVLM are not substitutes"
+  },
+  "outputs": {
+    "referenceArea_m2": 0.09,
+    "referenceChord_m": 0.25,
+    "momentAxis": "spanwise shaft, through canonical [.0625,0,.0043] m",
+    "coefficients": [
+      "CL",
+      "CD",
+      "Cm"
+    ],
+    "pressure": "Cp at declared span stations and surface pressure traction to FEM"
+  },
+  "primaryReference": {
+    "authors": [
+      "M. Lendraitis",
+      "V. Luko\u0161evi\u010dius"
+    ],
+    "year": 2025,
+    "doi": "10.3390/act14100498",
+    "use": "document-cited morphing/print/CFD method; no reproduced experimental curve claimed"
+  },
+  "pending": [
+    "final slider travel",
+    "flexible-zone start on new CAD",
+    "shaft insertion/material/wall thickness",
+    "root/disc gap",
+    "disc position in test section",
+    "PETG brand and measured law",
+    "actual tunnel speed/turbulence",
+    "test-day air properties"
+  ],
+  "references": [
+    {
+      "id": "prusament_petg_v1p1",
+      "url": "https://www.3dprintergear.com.au/assets/files/technical-data-sheet%20(1).pdf",
+      "class": "manufacturer data, distributor copy; density/modulus/yield/print conditions independently checked; no specimen validation",
+      "date": "2022-02-16"
+    },
+    {
+      "id": "3d4makers_petg",
+      "url": "https://cdn.shopify.com/s/files/1/0658/6459/7724/files/TDS_PETG.pdf",
+      "class": "manufacturer sheet checked; E=3GPa, rho1290, printed condition not specified; no statistical transfer between brands"
+    }
+  ]
+}

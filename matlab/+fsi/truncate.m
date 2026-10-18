@@ -1,0 +1,6 @@
+function [model,fluid] = truncate(model,fluid,count)
+%TRUNCATE Exact coordinate subset of the same CAD/UVLM tangent operators.
+assert(fluid.compactTangent && count>=1 && count<=fluid.modes,'fsi:Modes','Compact model and a valid retained count required.');old=fluid.modes;ny=fluid.spanPanels;rows=[1:ny,ny+(1:count),ny+old+(1:count)];columns=reshape((0:fluid.wakeRows-1)*old+(1:count)',1,[]);
+model.K=model.K(1:count,1:count);model.M=model.M(1:count,1:count);model.C=model.C(1:count,1:count);model.PhiSurface=model.PhiSurface(:,1:count);model.observation=model.observation(:,1:count);
+fluid.W=fluid.W(rows,:);fluid.Gq=fluid.Gq(rows,columns);fluid.Fw=fluid.Fw(1:count,:);fluid.Fq=fluid.Fq(1:count,columns);fluid.Lq=fluid.Lq(1:count,1:count);fluid.Lv=fluid.Lv(1:count,1:count);fluid.Lg=fluid.Lg(1:count,:);fluid.Ld=fluid.Ld(1:count,:);fluid.D=fluid.D(:,1:count);fluid.E=fluid.E(:,1:count);fluid.projectedD=fluid.projectedD(rows,1:count);fluid.projectedE=fluid.projectedE(rows,1:count);fluid.projectedSteadyGammaQ=fluid.projectedSteadyGammaQ(rows,1:count);fluid.steadyGammaQ=fluid.steadyGammaQ(:,1:count);fluid.PhiSurface=fluid.PhiSurface(:,1:count);fluid.load0=fluid.load0(1:count);fluid.modes=count;
+end

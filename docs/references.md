@@ -49,8 +49,11 @@ caracterización de la pieza del usuario. No se redistribuyen los artículos.
 - **Huang y Zhang, dataset versión 2 (2026).** Experimental and numerical data
   from comparative analysis of candidate structural models for active camber
   morphing wings. [Repositorio](https://data.mendeley.com/datasets/8jxw5533py/2).
-  Referencia candidata para validación posterior. Sus ensayos no se han
-  incorporado al solver ni ajustado a la geometría de referencia.
+  Extracto de 27 observaciones incorporado para nueve geometrías de placa.
+  Ver [casos, auditoría y licencia](case-catalog.md). No se ajusta a la pieza del usuario.
+- **Bathe y Dvorkin (1985).** A four-node plate bending element based on
+  Mindlin/Reissner plate theory and a mixed interpolation.
+  [DOI](https://doi.org/10.1002/nme.1620210213). Base de la formulación MITC4 propia.
 
 ## Métodos y herramientas
 
