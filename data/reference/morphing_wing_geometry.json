@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "source_step_sha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da",
+  "source_ipt_sha256": "7c729ab000e4f047765abb934bdaa4e0afb50b710b6722e180b24ad20efe1862",
+  "step": {
+    "source_name": "Airfoil with slider alone (1).stp",
+    "source_sha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da",
+    "brep_valid": true,
+    "units": "m",
+    "cad_volume_m3": 0.0007090739570135212,
+    "nonadaptive_volume_m3": 0.000639914821770461,
+    "adaptive_tolerance": 1e-08,
+    "adaptive_reported_relative_error": 2.934241249192222e-11,
+    "method": "OpenCASCADE BRepGProp adaptive Gauss integration, OnlyClosed=True",
+    "wrapper": "cadquery-ocp 8.0.1.1.0"
+  },
+  "inventory": {
+    "solids": 1,
+    "faces": 630,
+    "curves": 1902
+  },
+  "frame": {
+    "axisOrder": [
+      1,
+      3,
+      2
+    ],
+    "origin_m": [
+      -0.058245437549739085,
+      0,
+      0.058966321969807195
+    ],
+    "definition": "chord/span/height = CAD X/Z/Y; span from root 0 to .36; nominal chord datum inferred from shaft center and PDF c/4, +4.3 mm; no CAD scaling"
+  },
+  "cad_extent_chord_m": 0.24699616594194795,
+  "cad_extent_span_m": 0.3600000000000002,
+  "nominal_reference_chord_m": 0.25,
+  "nominal_reference_area_m2": 0.09,
+  "shaft_socket": {
+    "faces": [
+      71,
+      72,
+      73,
+      74
+    ],
+    "side_m": 0.01519999999999997,
+    "native_center_chord_height_m": [
+      0.004254562450260917,
+      0.0632663219698072
+    ],
+    "canonical_center_m": [
+      0.0625,
+      0.18,
+      0.0043
+    ],
+    "shaft_side_m": 0.015,
+    "adhesive_clearance_per_side_m": 0.0001,
+    "interpretation": "square 15.2 mm socket; idealized rigid bonded shaft 15 mm, adhesive thickness not explicitly meshed"
+  },
+  "slider_drive": {
+    "faces": [
+      7,
+      8,
+      9
+    ],
+    "native_plane_x_m": 0.061855537420453306,
+    "normal_cad": [
+      -1,
+      0,
+      0
+    ],
+    "interpretation": "three coplanar front faces of lower internal bar; idealized uniform chord displacement and zero transverse displacement on this driven interface; not proof of all real guide contacts"
+  },
+  "selected_faces": {
+    "7": {
+      "tag": 7,
+      "type": "Plane",
+      "box": [
+        0.0618554374204533,
+        0.0532718370312279,
+        0.34799990000000003,
+        0.06185563742045331,
+        0.059074737860845106,
+        0.3600001
+      ],
+      "center": [
+        0.061855537420453306,
+        0.05617328744603651,
+        0.35400000000000004
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "area_m2": 6.963240995540617e-05
+    },
+    "8": {
+      "tag": 8,
+      "type": "Plane",
+      "box": [
+        0.0618554374204533,
+        0.0532718370312279,
+        0.020199899999999986,
+        0.06185563742045331,
+        0.059074737860845106,
+        0.3398001
+      ],
+      "center": [
+        0.061855537420453306,
+        0.0561732874460365,
+        0.18
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "area_m2": 0.0018545431851456579
+    },
+    "9": {
+      "tag": 9,
+      "type": "Plane",
+      "box": [
+        0.0618554374204533,
+        0.0532718370312279,
+        -1e-07,
+        0.06185563742045331,
+        0.059074737860845106,
+        0.012000100000000026
+      ],
+      "center": [
+        0.061855537420453306,
+        0.0561732874460365,
+        0.005999999999999998
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "area_m2": 6.963240995540641e-05
+    },
+    "71": {
+      "tag": 71,
+      "type": "Plane",
+      "box": [
+        -0.00334553754973907,
+        0.0708662219698072,
+        -1e-07,
+        0.0118546624502609,
+        0.0708664219698072,
+        0.3600001
+      ],
+      "center": [
+        0.004254562450260915,
+        0.0708663219698072,
+        0.18
+      ],
+      "normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "area_m2": 0.005471999999999988
+    },
+    "72": {
+      "tag": 72,
+      "type": "Plane",
+      "box": [
+        0.011854462450260901,
+        0.055666221969807195,
+        -1e-07,
+        0.0118546624502609,
+        0.0708664219698072,
+        0.3600001
+      ],
+      "center": [
+        0.011854562450260902,
+        0.0632663219698072,
+        0.18000000000000002
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "area_m2": 0.005472000000000002
+    },
+    "73": {
+      "tag": 73,
+      "type": "Plane",
+      "box": [
+        -0.00334553754973907,
+        0.055666221969807195,
+        -1e-07,
+        0.0118546624502609,
+        0.0556664219698072,
+        0.3600001
+      ],
+      "center": [
+        0.0042545624502609205,
+        0.05566632196980719,
+        0.18
+      ],
+      "normal": [
+        -0.0,
+        1.0,
+        0.0
+      ],
+      "area_m2": 0.005471999999999985
+    },
+    "74": {
+      "tag": 74,
+      "type": "Plane",
+      "box": [
+        -0.00334553754973907,
+        0.055666221969807195,
+        -1e-07,
+        -0.00334533754973906,
+        0.0708664219698072,
+        0.3600001
+      ],
+      "center": [
+        -0.003345437549739068,
+        0.0632663219698072,
+        0.18000000000000002
+      ],
+      "normal": [
+        1.0,
+        2.92163953848725e-16,
+        0.0
+      ],
+      "area_m2": 0.005472000000000002
+    }
+  },
+  "prismatic": false,
+  "nonprismatic_evidence": "lateral and internal end faces at CAD span .012,.0202,.08,.28,.3398,.348 m; one full extrusion of a cap is invalid",
+  "previous_source_sha256": "5bacb470df1b1239a0d8af2181f10ca14077a4c0eba3b3531126c8981ea4793e",
+  "volume_relative_change": 0.1519757788710967,
+  "native_ipt_interpretation": "native Inventor file recorded unchanged by hash; numerical BREP audit uses supplied STEP; native/STEP feature-tree equivalence not independently verified"
+}

@@ -11,7 +11,7 @@ for step=1:o.loadSteps
     factor=step/o.loadSteps; u(bc.dofs)=factor*bc.values;converged=false;
     for iteration=1:o.maximumIterations
         state=fem3d.nonlinear_assemble(system,u); [F,KL]=external(u);r=state.force-factor*F;
-        metric=norm(r(bc.free),inf)/max(norm(factor*F(bc.free),inf),o.forceScale);
+        metric=norm(r(bc.free),inf)/max([norm(factor*F(bc.free),inf),norm(state.force(bc.dofs),inf),o.forceScale]);
         history(end+1,:)=[step,iteration,metric,state.strainEnergy,state.minimumDeformationJacobian]; %#ok<AGROW>
         if metric<o.relativeTolerance,converged=true;break;end
         K=state.tangent-factor*KL; correction=zeros(nd,1);correction(bc.free)=-K(bc.free,bc.free)\r(bc.free);accepted=false;

@@ -1,5 +1,10 @@
 # Plan de desarrollo aeroelástico sobre el CAD original
 
+> Esta ruta corresponde al STEP anterior y a sus hipótesis de PLA/montaje.
+> El [estudio actual PETG con servo](morphing-wing.md) usa otro STEP y apoyo;
+> conserva esta evidencia como histórica y las capacidades como complementos.
+
+
 Fecha de referencia: 17 de octubre de 2026. Base de código inspeccionada:
 commit `9d77047876ba6705589eac924fccf1424606448c`, rama
 `codex/trailing-edge-benchmarks`, [PR 4](https://github.com/MC-Andes/passive-airfoil-aeroelasticity-matlab/pull/4).

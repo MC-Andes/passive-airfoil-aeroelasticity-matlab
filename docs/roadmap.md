@@ -1,5 +1,13 @@
 # Desarrollo completado y validación posterior
 
+La prioridad actual es el [ala morphing PETG con slider accionado](morphing-wing.md):
+CAD actualizado no prismático, apoyo en eje y CFD estacionario de la semiala.
+Vibraciones, flutter y resistencia se mantienen como complementos. Las campañas
+anteriores pertenecen a otro STEP. El CFD 3D con transición y su convergencia
+a Reynolds de túnel siguen siendo desarrollo pendiente, no una capacidad
+validada por los casos laminares existentes.
+
+
 El [plan del CAD original](plan-cad-original.md) se ejecuta sobre el STEP
 original, con hipótesis geométricas y bibliográficas autorizadas por el usuario.
 El [informe de resultados](cad-original-results.md) registra las campañas,

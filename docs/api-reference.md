@@ -275,3 +275,24 @@ no simula una excitación del flujo ni valida la reducción espacial.
 Las [guías acoplada](cad-coupled.md) y [viscosa](viscous-flow.md) describen
 unidades, hipótesis, conservación y reproducción. Los runners de sensibilidad
 no son calibraciones del espécimen ni modelos de turbulencia.
+
+
+## Estudio actualizado PETG y servo
+
+| Función | Contrato |
+| --- | --- |
+| `morphing.load_case(root,[path])` | Schema 2, STEP actualizado y datos de estudio coherentes; no reutiliza el loader histórico. |
+| `morphing.boundary_conditions(mesh,c,command_m)` | Apoyo sobre cuatro caras de alojamiento hasta inserción declarada; desplazamiento uniforme de interfaz del slider. Rechaza SHA/firmas incompatibles. |
+| `morphing.observers(mesh,c)` | Puntos materiales en envergadura positiva; offset TE referido a extensión real del CAD, no a una cuerda nominal inexistente. |
+| `morphing.aerodynamic_coefficients(points,forces,c,U,alpha_deg)` | Puntos [m] y fuerzas sobre cuerpo [N], canónicas; CL/CD de viento y Cm sobre el eje, S=.09 m², c=.25 m. |
+| `run_morphing_study([casePath])` | Genera 231 filas de planificación; no calcula CFD ni inventa recorrido final. |
+| `run_morphing_mechanics([casePath],[order])` | Prueba tangente completa, modos bloqueados y tensiones. Tet10 por defecto; Tet4 es comparación diagnóstica. |
+| `run_morphing_nonlinear([command_m],[casePath])` | SVK Tet4 con continuación y Cauchy/Green; amplitud pequeña por defecto, sin calificar resistencia. |
+| `run_morphing_review(manifestPath)` | Comparación de campañas explícitas, hashes y figuras; no hereda cierre del CAD anterior. |
+
+`fem3d.nonlinear_tet4_batch` calcula la misma fuerza, tangente y energía del
+elemento total Lagrangiano existente, con páginas y memoria acotadas. El flag
+`mesh.nonlinearBatch=true` lo activa para Tet4. Su contraste independiente y
+la solución analítica de una barra con desplazamiento finito impuesto forman
+parte de los seis controles morphing. El solver normaliza también con las
+reacciones de los DOFs impuestos cuando la fuerza exterior es cero.

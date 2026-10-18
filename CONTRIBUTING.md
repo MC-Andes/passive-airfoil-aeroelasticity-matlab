@@ -34,7 +34,7 @@ máquina. Si cambia una entrada, actualizar `data/manifest.json`, su procedencia
 y los controles de compatibilidad. Las mallas son de desarrollo y no representan
 una caracterización experimental del mecanismo.
 
-La CI comprueba integridad y enlaces locales y ejecuta las 69 verificaciones
+La CI comprueba integridad y enlaces locales y ejecuta las 75 verificaciones
 en MATLAB R2026a. El caso refinado completo se ejecuta localmente cuando el
 cambio lo requiera; no forma parte de cada ejecución automática por su costo.
 

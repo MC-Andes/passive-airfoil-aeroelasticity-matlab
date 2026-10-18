@@ -229,6 +229,13 @@
       "path": "data/benchmarks/cad_literature.json",
       "sha256": "e997b98e759cb9d7c3904b481fd83b3eeb9f4b224f77d924c3e2a284eb204489",
       "bytes": 9981
+    },
+    {
+      "path": "data/reference/morphing_wing_geometry.json",
+      "sha256": "4e2caab7fd52dbf57d90e3be11b5a88bf61351065be96d994c9b6096d35ab9df",
+      "bytes": 5836
     }
-  ]
+  ],
+  "updated_morphing_step_sha256": "a5b289434de68e737d9c0bed552d32c642f6be22fc84d8c71d49434c501f14da",
+  "source_step_interpretation": "source_step_sha256 identifies historical cached MATLAB example meshes; updated_morphing_step_sha256 is a distinct geometry, not interchangeable"
 }

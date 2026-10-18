@@ -1,5 +1,10 @@
 # Mecánica y flujo acoplado del CAD original
 
+> Esta ruta corresponde al STEP anterior y a sus hipótesis de PLA/montaje.
+> El [estudio actual PETG con servo](morphing-wing.md) usa otro STEP y apoyo;
+> conserva esta evidencia como histórica y las capacidades como complementos.
+
+
 Esta ruta mantiene el sólido conectado del STEP y el FEM/fluido MATLAB propios.
 El usuario autorizó sustituir las entradas experimentales desconocidas por
 hipótesis geométricas y bibliográficas. El contrato de

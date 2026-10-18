@@ -7,8 +7,8 @@ addpath('matlab')
 report = run_verification();
 ```
 
-El wrapper ejecuta siete suites: `run_tests`, `run_fem_tests`, `run_tail_tests`,
-`run_cad_tests`, `run_mechanics_extension_tests`, `run_uvlm_tests` y `run_viscous_tests`. Las suites usan referencias
+El wrapper ejecuta ocho suites (75 controles): `run_tests`, `run_fem_tests`, `run_tail_tests`,
+`run_cad_tests`, `run_mechanics_extension_tests`, `run_uvlm_tests`, `run_viscous_tests` y `run_morphing_tests`. Las suites usan referencias
 analíticas o invariantes de física y fallan con un error cuando no cumplen sus
 criterios. Los resultados se guardan bajo `results/verification/` y el FEM
 también mantiene `results/fem_test_results.csv` por compatibilidad.
@@ -58,10 +58,10 @@ El test llamado `divergence_failure` no identifica divergencia experimental del
 ## Tres niveles distintos
 
 1. **Verificación de implementación:** comprobar que el código reproduce sus
-   ecuaciones y referencias. Las siete suites pertenecen a este nivel.
+   ecuaciones y referencias. Las ocho suites pertenecen a este nivel.
 2. **Convergencia de discretización:** comprobar que una magnitud deja de
    depender materialmente del tamaño/tipo de elemento, malla VLM y paso temporal.
-   La campaña Tet10 actual cumple los criterios de cola y banda declarada;
+   La campaña Tet10 del STEP anterior cumple los criterios de cola y banda declarada;
    las dos mallas Tet4 históricas no los cumplían.
 3. **Validación física:** comparar predicciones con ensayos de la misma pieza,
    impresión, montaje y flujo, considerando incertidumbre. Está pendiente para
@@ -162,3 +162,15 @@ campañas separadas; no se confunden con pruebas unitarias pequeñas.
 El [informe actual](cad-original-results.md) distingue los criterios aceptados,
 los diagnósticos históricos y las limitaciones físicas. Un control que pasa
 no demuestra validación experimental del espécimen.
+
+
+## Estudio morphing actualizado: seis controles nuevos
+
+Se verifican q/Re y referencias de la semiala, el momento respecto al eje
+con su altura de 4,3 mm, el control por desplazamiento y su dependencia de E,
+la selección espacial del alojamiento/servo y el rechazo de etiquetas de otro
+CAD. El sólido no lineal por bloques se compara con la implementación
+independiente elemento a elemento. Una barra con alargamiento impuesto del
+5% y fuerza exterior nula se contrasta con su solución analítica de SVK.
+Estos seis controles se suman a los 69 anteriores; no validan el PETG real ni
+el CFD de túnel. Véase la [definición actual](morphing-wing.md).

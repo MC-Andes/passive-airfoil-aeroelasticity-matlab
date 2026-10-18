@@ -1,5 +1,11 @@
 # Información para el equipo experimental
 
+El documento aportado y el CAD actualizado ya definen material PETG, eje,
+servo y condiciones de trabajo del túnel. El [contrato vigente](morphing-wing.md)
+separa esos datos de las propiedades y mediciones todavía pendientes. Las
+plantillas siguientes siguen siendo útiles para adquirir la evidencia faltante.
+
+
 El objetivo es sustituir las hipótesis actuales por entradas medidas y poder
 comparar el mismo caso físico. Conservar datos originales, unidades y una
 identificación de la pieza, impresión y configuración de cada corrida.

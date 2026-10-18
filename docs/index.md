@@ -1,14 +1,16 @@
 # Documentación del proyecto
 
-El objetivo es estudiar perfiles tridimensionales fijos que se deforman
-pasivamente por las cargas del aire. La implementación principal calcula las
-matrices estructurales mediante un FEM sólido propio en MATLAB y aplica cargas
-de VLM/UVLM en una o dos vías. La rama viscosa propia se documenta por separado.
+El estudio principal actual calcula formas y fuerzas de una semiala morphing
+accionada por servo, con CAD actualizado y PETG. Conserva vibraciones,
+estabilidad/flutter y resistencia como extensiones. La
+[definición actual](morphing-wing.md) sustituye hipótesis antiguas donde hay
+nueva información y mantiene identificados los datos por confirmar.
 
 ## Ruta de lectura
 
 | Necesidad | Documento |
 | --- | --- |
+| Estudio actual: CAD, PETG, eje, servo y campaña CFD | [Ala morphing actualizada](morphing-wing.md) |
 | Instalar y ejecutar desde un clon limpio | [Inicio rápido](getting-started.md) |
 | Comprender componentes, unidades y grados de libertad | [Arquitectura](architecture.md) |
 | Revisar la formulación estructural y sus hipótesis | [FEM sólido](solid-fem.md) |
@@ -30,10 +32,10 @@ de VLM/UVLM en una o dos vías. La rama viscosa propia se documenta por separado
 
 ## Estado científico
 
-`run_verification` integra siete suites: VLM/reducción, sólido, placa,
-CAD/Tet10, mecánica no lineal/restricciones, UVLM/FSI y Navier–Stokes 2D/3D.
+`run_verification` integra ocho suites: VLM/reducción, sólido, placa,
+CAD/Tet10, mecánica no lineal/restricciones, UVLM/FSI, Navier–Stokes 2D/3D y seis controles nuevos del estudio morphing (75 en total).
 La comparación experimental de nueve placas PLA se ejecuta por separado.
-La familia prismática del CAD se verifica con tres niveles y una comparación
+La familia prismática del CAD anterior se verifica con tres niveles y una comparación
 de geometría curva; los resultados históricos no convergidos se conservan.
 
 Los resultados del espécimen son condicionales al material, montaje, guía y

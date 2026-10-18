@@ -1,5 +1,10 @@
 # Resultados del CAD original y alcance de aceptación
 
+> Esta ruta corresponde al STEP anterior y a sus hipótesis de PLA/montaje.
+> El [estudio actual PETG con servo](morphing-wing.md) usa otro STEP y apoyo;
+> conserva esta evidencia como histórica y las capacidades como complementos.
+
+
 El objetivo se conserva: estructura posterior y vibración del STEP original,
 con solver FEM/fluido MATLAB propio. No se sustituyó el mecanismo por una placa.
 El usuario autorizó hipótesis geométricas y bibliográficas porque no existen

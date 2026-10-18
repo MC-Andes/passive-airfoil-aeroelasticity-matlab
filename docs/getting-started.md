@@ -1,5 +1,11 @@
 # Instalación y ejecución
 
+Para la geometría actualizada, PETG y accionamiento por servo, seguir la
+[guía del ala morphing](morphing-wing.md). Los ejemplos siguientes siguen
+siendo verificaciones reproducibles y las campañas antiguas conservan su
+propia configuración; no son la semiala actual por defecto.
+
+
 ## Requisitos
 
 - MATLAB R2026a es la versión verificada localmente. La CI solicita R2026a.

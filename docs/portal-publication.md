@@ -1,5 +1,11 @@
 # Publicación del estudio de aeroelasticidad en MC-Andes
 
+La ficha preparada en el PR #13 del portal pertenece a la campaña anterior;
+ese PR está cerrado. El [estudio actualizado](morphing-wing.md) introduce PETG,
+otro CAD y servo impuesto. La ficha no debe publicarse como representación
+del estudio nuevo sin revisar narrativa, figuras, referencias y estado.
+
+
 La ficha se prepara en el repositorio
 [del portal](https://github.com/MC-Andes/mc-andes.github.io), bajo la ruta estable
 `/projects/passive-airfoil-aeroelasticity/`. Su publicación requiere revisión e

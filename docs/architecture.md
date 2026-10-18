@@ -1,5 +1,12 @@
 # Arquitectura y convenciones
 
+El [estudio vigente del ala morphing](morphing-wing.md) usa el paquete
+`morphing` para datos y geometría, eje adherido, comando del servo y referencias
+de fuerza/momento. Sus runners no invocan el contrato antiguo de PLA ni
+heredan su aceptación. La arquitectura siguiente describe los componentes
+comunes y ejemplos conservados.
+
+
 ## Componentes
 
 ```mermaid
@@ -14,7 +21,7 @@ flowchart LR
     S --> D[Modos y transitorio estructural]
 ```
 
-La ruta principal es `fem3d.one_way`. Calcula la aerodinámica una vez sobre la
+La ruta básica de una vía es `fem3d.one_way`. Calcula la aerodinámica una vez sobre la
 geometría inicial, transfiere fuerzas y resuelve un sólido lineal. No existe
 una flecha de actualización geométrica desde el sólido hacia el VLM en esa
 función.
@@ -30,6 +37,7 @@ usan rigideces y masas ilustrativas, no calculadas del CAD. Consultar el
 | Ruta | Función |
 | --- | --- |
 | `matlab/+fem3d/` | Elemento sólido, mallas, ensamblaje, restricciones, equilibrio y dinámica. |
+| `matlab/+morphing/` | Contrato actualizado, apoyo físico, comando, observadores y coeficientes sobre el eje. |
 | `matlab/+pae/` | Superficie, VLM, mapas de fuerzas y solver reducido. |
 | `matlab/run_*.m` | Entradas reproducibles de los ejemplos. |
 | `matlab/tests/` | Referencias analíticas, conservación e integridad geométrica. |

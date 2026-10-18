@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased — geometría actualizada, PETG y servo
+
+- Nuevo contrato de estudio con STEP/IPT identificados por hash, eje cuadrado,
+  apoyo adherido y accionamiento por desplazamiento; conserva las campañas
+  y capacidades anteriores como referencia/complementos.
+- PETG, aire de Bogotá y campaña de 231 configuraciones planificadas, sin
+  atribuir resultados a un CFD con transición todavía no implementado.
+- Nuevos observadores, convenciones de CL/CD/Cm respecto al eje y pruebas
+  completas del sólido actualizado.
+- Sólido SVK Tet4 por bloques verificado y convergencia no lineal compatible
+  con desplazamiento impuesto sin fuerza exterior; seis controles nuevos
+  (75 en total).
+
 ## Unreleased — CAD original, mecánica y flujo acoplado
 
 - Preparación de ficha científica MC-Andes, exportador de estados y figuras
